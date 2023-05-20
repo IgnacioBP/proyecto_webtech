@@ -13,7 +13,8 @@
 
   <div>
     <%= form.label :mail, style: "display: block" %>
-    <%= form.text_field :mail %>
+    <%= form.text_field :mail, value: @user.mail_original, readonly: form.object.persisted? %>
+    <% user.mail = user.mail_original%>
   </div>
 
   <div>
