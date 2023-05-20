@@ -1,0 +1,33 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  incident_description: MyString
+  creation_date: 2023-05-20 11:11:38
+  resolution_date: 2023-05-20 11:11:38
+  response_to_user_date: 2023-05-20 11:11:38
+  priority: MyString
+  state: MyString
+  resolution_key: MyString
+  response_key: MyString
+  response_to_user: MyString
+  accept_or_reject_solution: MyString
+  star_number: 1
+  limit_time_response: 2023-05-20 11:11:38
+  limit_time_resolution: 2023-05-20 11:11:38
+
+two:
+  title: MyString
+  incident_description: MyString
+  creation_date: 2023-05-20 11:11:38
+  resolution_date: 2023-05-20 11:11:38
+  response_to_user_date: 2023-05-20 11:11:38
+  priority: MyString
+  state: MyString
+  resolution_key: MyString
+  response_key: MyString
+  response_to_user: MyString
+  accept_or_reject_solution: MyString
+  star_number: 1
+  limit_time_response: 2023-05-20 11:11:38
+  limit_time_resolution: 2023-05-20 11:11:38
