@@ -1,0 +1,16 @@
+<div id="<%= dom_id chat %>">
+
+    <p>
+        <strong>Ticket:</strong>
+        <%= chat.ticket_id %>
+    </p>
+
+    <p>
+        <strong>Comments:</strong>
+        <br>
+        <% chat.comments.each do |t|%>
+        <%= t.writer%> :  <%= t.text%> <br>
+        <%end%>
+    </p>  
+
+</div>

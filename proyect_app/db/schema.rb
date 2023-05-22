@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_22_160907) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_22_193329) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -68,6 +68,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_22_160907) do
     t.index ["ticket_id"], name: "index_assign_tickets_on_ticket_id"
   end
 
+  create_table "chats", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "ticket_id", null: false
+    t.index ["ticket_id"], name: "index_chats_on_ticket_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "text", null: false
+    t.string "writer", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "chat_id", null: false
+    t.index ["chat_id"], name: "index_comments_on_chat_id"
+  end
+
   create_table "executives", primary_key: "mail", id: :string, force: :cascade do |t|
     t.string "name", null: false
     t.string "last_name", null: false
@@ -79,13 +95,28 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_22_160907) do
   end
 
   create_table "supervisors", primary_key: "mail", id: :string, force: :cascade do |t|
-    t.string "name"
-    t.string "last_name"
-    t.integer "phone"
-    t.text "password"
+    t.string "name", null: false
+    t.string "last_name", null: false
+    t.integer "phone", null: false
+    t.text "password", null: false
     t.string "mail_original"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "tag_lists", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "ticket_id", null: false
+    t.index ["ticket_id"], name: "index_tag_lists_on_ticket_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "tag_list_id", null: false
+    t.index ["tag_list_id"], name: "index_tags_on_tag_list_id"
   end
 
   create_table "ticket_lists", force: :cascade do |t|
@@ -130,6 +161,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_22_160907) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "assign_tickets", "executives", column: "executive_mail", primary_key: "mail", on_delete: :cascade
   add_foreign_key "assign_tickets", "tickets"
+  add_foreign_key "chats", "tickets"
+  add_foreign_key "comments", "chats"
+  add_foreign_key "tag_lists", "tickets"
+  add_foreign_key "tags", "tag_lists"
   add_foreign_key "ticket_lists", "tickets"
   add_foreign_key "ticket_lists", "users", column: "user_mail", primary_key: "mail", on_delete: :cascade
 end

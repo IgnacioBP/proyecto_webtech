@@ -4,4 +4,6 @@ class Ticket < ApplicationRecord
 
     has_one :ticket_list
     has_one :assign_ticket
+    has_one :tag_list
+    has_one :chat
 end

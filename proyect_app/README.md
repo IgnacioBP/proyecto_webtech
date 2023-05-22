@@ -17,9 +17,6 @@ Validaciones:
 
 Tablas:
 
-    TagList
-
-    Tag
 
     CommentList
 
@@ -31,14 +28,6 @@ Tablas:
     
 
 Relaciones:
-
-    Tag
-        belongs_to :tag_list
-    TagList
-        has_many :tags
-        has_many :tickets
-    Ticket
-        belongs_to :tag_list
 
     Comment
         belongs_to :comment_list

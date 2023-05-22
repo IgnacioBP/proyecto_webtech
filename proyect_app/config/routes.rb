@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :comments
+  resources :chats
+  resources :tags
+  resources :tag_lists
   resources :administrators, :param => :mail
   resources :supervisors, :param => :mail
   resources :assign_tickets
