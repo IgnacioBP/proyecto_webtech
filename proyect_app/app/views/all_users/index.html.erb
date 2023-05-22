@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>All users</h1>
+
+<div id="all_users">
+  <% @all_users.each do |all_user| %>
+    <%= render all_user %>
+    <p>
+      <%= link_to "Show this all user", all_user %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New all user", new_all_user_path %>

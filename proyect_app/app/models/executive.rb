@@ -1,7 +1,8 @@
-class User < ApplicationRecord
+class Executive < ApplicationRecord
+
     self.primary_key = 'mail'
-    has_one :ticket_list, primary_key: 'mail', foreign_key: 'user_mail', dependent: :destroy
-    has_many :tickets, through: :ticket_list 
+    has_one :assign_ticket, primary_key: 'mail', foreign_key: 'executive_mail', dependent: :destroy
+    has_many :tickets, through: :assign_ticket 
 
     
     after_validation :set_email_key
@@ -17,7 +18,7 @@ class User < ApplicationRecord
     def set_email_key
         self.mail_original=self.mail
         self.mail= mail.gsub('.', '')
-        AllUser.create account_level: "User", account_mail: mail
+        AllUser.create account_level: "Executive", account_mail: mail
     end
 
 end

@@ -1,0 +1,43 @@
+<%= form_with(model: supervisor) do |form| %>
+  <% if supervisor.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(supervisor.errors.count, "error") %> prohibited this supervisor from being saved:</h2>
+
+      <ul>
+        <% supervisor.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+   <div>
+    <%= form.label :mail, style: "display: block" %>
+    <%= form.text_field :mail, value: @supervisor.mail_original, readonly: form.object.persisted? %>
+    <% supervisor.mail = supervisor.mail_original%>
+  </div>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :last_name, style: "display: block" %>
+    <%= form.text_field :last_name %>
+  </div>
+
+  <div>
+    <%= form.label :phone, style: "display: block" %>
+    <%= form.number_field :phone %>
+  </div>
+
+  <div>
+    <%= form.label :password, style: "display: block" %>
+    <%= form.text_area :password %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

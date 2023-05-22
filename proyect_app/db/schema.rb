@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_20_201806) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_22_160907) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,52 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_20_201806) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "administrators", primary_key: "mail", id: :string, force: :cascade do |t|
+    t.string "name", null: false
+    t.string "last_name", null: false
+    t.integer "phone", null: false
+    t.text "password", null: false
+    t.string "mail_original"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "all_users", force: :cascade do |t|
+    t.text "account_mail"
+    t.string "account_level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "assign_tickets", force: :cascade do |t|
+    t.text "executive_mail", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "ticket_id", null: false
+    t.index ["executive_mail"], name: "index_assign_tickets_on_executive_mail"
+    t.index ["ticket_id"], name: "index_assign_tickets_on_ticket_id"
+  end
+
+  create_table "executives", primary_key: "mail", id: :string, force: :cascade do |t|
+    t.string "name", null: false
+    t.string "last_name", null: false
+    t.integer "phone", null: false
+    t.text "password", null: false
+    t.string "mail_original"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "supervisors", primary_key: "mail", id: :string, force: :cascade do |t|
+    t.string "name"
+    t.string "last_name"
+    t.integer "phone"
+    t.text "password"
+    t.string "mail_original"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "ticket_lists", force: :cascade do |t|
@@ -82,6 +128,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_20_201806) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "assign_tickets", "executives", column: "executive_mail", primary_key: "mail", on_delete: :cascade
+  add_foreign_key "assign_tickets", "tickets"
   add_foreign_key "ticket_lists", "tickets"
   add_foreign_key "ticket_lists", "users", column: "user_mail", primary_key: "mail", on_delete: :cascade
 end
