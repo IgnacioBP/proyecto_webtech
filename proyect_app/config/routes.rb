@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+ 
+  resources :performance_reports
+  resources :executive_reports
   resources :comments
   resources :chats
   resources :tags

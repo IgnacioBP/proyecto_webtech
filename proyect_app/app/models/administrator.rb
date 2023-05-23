@@ -1,8 +1,11 @@
 class Administrator < ApplicationRecord
     self.primary_key = 'mail'
 
+    has_many :performance_reports ,primary_key: 'mail', foreign_key: 'administrator_mail', dependent: :nullify
     belongs_to :all_user 
     
+
+
     before_validation :create_users
     after_validation :set_email_key
 

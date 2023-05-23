@@ -4,6 +4,8 @@ class Executive < ApplicationRecord
     has_one :assign_ticket, primary_key: 'mail', foreign_key: 'executive_mail', dependent: :destroy
     has_many :tickets, through: :assign_ticket 
 
+    has_many :executive_reports,primary_key: 'mail', foreign_key: 'executive_mail'
+
     
     belongs_to :all_user 
     

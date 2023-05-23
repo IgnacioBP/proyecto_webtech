@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_23_140605) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_23_172017) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,8 +55,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_23_140605) do
   end
 
   create_table "all_users", force: :cascade do |t|
-    t.text "account_mail"
-    t.string "account_level"
+    t.text "account_mail", null: false
+    t.string "account_level", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -86,6 +86,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_23_140605) do
     t.index ["chat_id"], name: "index_comments_on_chat_id"
   end
 
+  create_table "executive_reports", force: :cascade do |t|
+    t.text "executive_mail", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "performance_report_id", null: false
+    t.index ["executive_mail"], name: "index_executive_reports_on_executive_mail"
+    t.index ["performance_report_id"], name: "index_executive_reports_on_performance_report_id"
+  end
+
   create_table "executives", primary_key: "mail", id: :string, force: :cascade do |t|
     t.string "name", null: false
     t.string "last_name", null: false
@@ -98,6 +107,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_23_140605) do
     t.bigint "stars_value", default: 0, null: false
     t.bigint "closed_count", default: 0, null: false
     t.index ["all_user_id"], name: "index_executives_on_all_user_id"
+  end
+
+  create_table "performance_reports", force: :cascade do |t|
+    t.datetime "report_date", null: false
+    t.text "administrator_mail"
+    t.text "supervisor_mail"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["administrator_mail"], name: "index_performance_reports_on_administrator_mail"
+    t.index ["supervisor_mail"], name: "index_performance_reports_on_supervisor_mail"
   end
 
   create_table "supervisors", primary_key: "mail", id: :string, force: :cascade do |t|
@@ -137,20 +156,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_23_140605) do
   end
 
   create_table "tickets", force: :cascade do |t|
-    t.string "title"
-    t.string "incident_description"
-    t.datetime "creation_date"
-    t.datetime "resolution_date"
-    t.datetime "response_to_user_date"
-    t.string "priority"
-    t.string "state"
-    t.string "resolution_key"
-    t.string "response_key"
-    t.string "response_to_user"
-    t.string "accept_or_reject_solution"
-    t.integer "star_number"
-    t.datetime "limit_time_response"
-    t.datetime "limit_time_resolution"
+    t.string "title", null: false
+    t.string "incident_description", null: false
+    t.datetime "creation_date", default: "2023-05-23 18:02:44", null: false
+    t.datetime "resolution_date", default: "2023-05-23 18:02:44", null: false
+    t.datetime "response_to_user_date", default: "2023-05-23 18:02:44", null: false
+    t.string "priority", default: "Low", null: false
+    t.string "state", default: "Waiting", null: false
+    t.string "resolution_key", default: "not yet", null: false
+    t.string "response_key", default: "not yet", null: false
+    t.string "response_to_user", default: " ", null: false
+    t.string "accept_or_reject_solution", default: "Waiting", null: false
+    t.integer "star_number", default: 0, null: false
+    t.datetime "limit_time_response", default: "2023-05-23 18:02:44", null: false
+    t.datetime "limit_time_resolution", default: "2023-05-23 18:02:44", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -174,7 +193,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_23_140605) do
   add_foreign_key "assign_tickets", "tickets"
   add_foreign_key "chats", "tickets"
   add_foreign_key "comments", "chats"
+  add_foreign_key "executive_reports", "executives", column: "executive_mail", primary_key: "mail", on_delete: :cascade
+  add_foreign_key "executive_reports", "performance_reports"
   add_foreign_key "executives", "all_users"
+  add_foreign_key "performance_reports", "administrators", column: "administrator_mail", primary_key: "mail", on_delete: :cascade
+  add_foreign_key "performance_reports", "supervisors", column: "supervisor_mail", primary_key: "mail", on_delete: :cascade
   add_foreign_key "supervisors", "all_users"
   add_foreign_key "tag_lists", "tickets"
   add_foreign_key "tags", "tag_lists"

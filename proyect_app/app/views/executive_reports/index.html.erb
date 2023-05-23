@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Executive reports</h1>
+
+<div id="executive_reports">
+  <% @executive_reports.each do |executive_report| %>
+    <%= render executive_report %>
+    <p>
+      <%= link_to "Show this executive report", executive_report %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New executive report", new_executive_report_path %>

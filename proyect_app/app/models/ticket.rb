@@ -10,6 +10,14 @@ class Ticket < ApplicationRecord
     has_one :chat
 
 
+
+    validates :title, presence:true
+    validates :incident_description, presence: true
+    validates :priority, presence: true
+    validates :state, presence:true
+    validates :star_number, numericality: {only_integer: true ,in: 0..6}
+
+
     after_update :change_values
 
 

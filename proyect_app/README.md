@@ -6,23 +6,8 @@ Validaciones:
 
     Administrator
 
-    Tag
-
-    Comment
-
     ...
 
-Tablas:
-
-    ExecutiveReport
-
-    ReportOfPerformance
-    
-
-Relaciones:
-
-
-    ...
 
 Agregar:
 
@@ -34,8 +19,6 @@ Agregar:
 Ver como:
 
     Modificar un User/Executive siendo Supervisor y como hacer lo mismo pero como Administrador
-
-    Hacer el executive report y el report of performance
 
     Manejar las rutas de mejor manera
 
