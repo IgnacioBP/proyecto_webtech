@@ -5,20 +5,47 @@ class Executive < ApplicationRecord
     has_many :tickets, through: :assign_ticket 
 
     
+    belongs_to :all_user 
+    
+    before_validation :create_users
     after_validation :set_email_key
 
+    before_destroy :delete_users
 
 
-    validates :mail, email: true
+
+    validates :mail_original, email: true
     validates :name, presence: true
     validates :last_name, presence: true
     validates :phone, presence: true
     validates :password, presence: true
 
-    def set_email_key
-        self.mail_original=self.mail
-        self.mail= mail.gsub('.', '')
-        AllUser.create account_level: "Executive", account_mail: mail
+    def create_users
+        if self.all_user_id.nil?
+            self.mail_original=self.mail
+            self.all_user = AllUser.create account_level: "Executive", account_mail: self.mail 
+        end
+        # account=AllUser.new account_level: "Executive", 
+        # if account.save
+        
     end
 
+
+    def set_email_key
+        self.mail= mail.gsub('.', '')
+
+    end
+
+    def delete_users
+        self.all_user.destroy
+    end
+
+
+    def update_closed_count_by_1
+        self.update closed_count: self.closed_count + 1
+    end
+
+    def update_stars_value (value)
+        self.update stars_value: self.stars_value + value
+    end
 end

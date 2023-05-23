@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_22_193329) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_23_140605) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -50,6 +50,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_22_193329) do
     t.string "mail_original"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "all_user_id", null: false
+    t.index ["all_user_id"], name: "index_administrators_on_all_user_id"
   end
 
   create_table "all_users", force: :cascade do |t|
@@ -92,6 +94,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_22_193329) do
     t.string "mail_original"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "all_user_id", null: false
+    t.bigint "stars_value", default: 0, null: false
+    t.bigint "closed_count", default: 0, null: false
+    t.index ["all_user_id"], name: "index_executives_on_all_user_id"
   end
 
   create_table "supervisors", primary_key: "mail", id: :string, force: :cascade do |t|
@@ -102,6 +108,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_22_193329) do
     t.string "mail_original"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "all_user_id", null: false
+    t.index ["all_user_id"], name: "index_supervisors_on_all_user_id"
   end
 
   create_table "tag_lists", force: :cascade do |t|
@@ -155,16 +163,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_22_193329) do
     t.string "mail_original"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "all_user_id", null: false
+    t.index ["all_user_id"], name: "index_users_on_all_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "administrators", "all_users"
   add_foreign_key "assign_tickets", "executives", column: "executive_mail", primary_key: "mail", on_delete: :cascade
   add_foreign_key "assign_tickets", "tickets"
   add_foreign_key "chats", "tickets"
   add_foreign_key "comments", "chats"
+  add_foreign_key "executives", "all_users"
+  add_foreign_key "supervisors", "all_users"
   add_foreign_key "tag_lists", "tickets"
   add_foreign_key "tags", "tag_lists"
   add_foreign_key "ticket_lists", "tickets"
   add_foreign_key "ticket_lists", "users", column: "user_mail", primary_key: "mail", on_delete: :cascade
+  add_foreign_key "users", "all_users"
 end
