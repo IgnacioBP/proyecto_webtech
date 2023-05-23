@@ -1,18 +1,9 @@
 # README
 
-Validaciones:
-
-    Tickets
-
-    Administrator
-
-    ...
-
 
 Agregar:
 
 
-    administrator_key en Administrator, para checkear que solo haya un unico administrador
 
     ...
 
@@ -25,8 +16,6 @@ Ver como:
     Arreglar las vistas
 
     Hacer un login
-
-    Hacer que se elimine el AllUser asociado a un modelo una vez que ese modelo se destruye
     
 
 

@@ -1,7 +1,7 @@
 class Administrator < ApplicationRecord
     self.primary_key = 'mail'
 
-    has_many :performance_reports ,primary_key: 'mail', foreign_key: 'administrator_mail', dependent: :nullify
+    has_many :performance_reports ,primary_key: 'mail', foreign_key: 'administrator_mail', dependent: :destroy
     belongs_to :all_user 
     
 
@@ -9,7 +9,7 @@ class Administrator < ApplicationRecord
     before_validation :create_users
     after_validation :set_email_key
 
-    before_destroy :delete_users
+    # call  .delete_users in controller  en vez de  .destroy
 
 
 
@@ -19,10 +19,15 @@ class Administrator < ApplicationRecord
     validates :phone, presence: true
     validates :password, presence: true
 
+
     def create_users
         if self.all_user_id.nil?
-            self.mail_original=self.mail
-            self.all_user = AllUser.create account_level: "Administrator", account_mail: self.mail 
+            if Administrator.all.count === 1
+                errors.add(:base, "You can only have one administrator")
+            else
+                self.mail_original=self.mail
+                self.all_user = AllUser.create account_level: "Administrator", account_mail: self.mail 
+            end
         end
         
     end

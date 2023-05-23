@@ -9,7 +9,7 @@ class User < ApplicationRecord
     before_validation :create_users
     after_validation :set_email_key
 
-    before_destroy :delete_users
+    # call  .delete_users in controller  en vez de  .destroy
 
 
 
