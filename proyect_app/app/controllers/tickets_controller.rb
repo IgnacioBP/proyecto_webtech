@@ -58,6 +58,16 @@ class TicketsController < ApplicationController
     end
   end
 
+
+  def ticket_report
+
+  end
+
+  def overdue_report
+
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_ticket
