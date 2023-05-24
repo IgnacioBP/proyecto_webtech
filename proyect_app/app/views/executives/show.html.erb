@@ -4,6 +4,7 @@
 
 <div>
   <%= link_to "Edit this executive", edit_executive_path(@executive) %> |
+  <%= link_to "Executive Assign Tickets", executive_assign_tickets_path(@executive) %>|
   <%= link_to "Back to executives", executives_path %>
 
   <%= button_to "Destroy this executive", @executive, method: :delete %>

@@ -10,6 +10,22 @@
   </p>
 
   <p>
+    <strong>Requesting User info:</strong>
+    <ul>
+      <li>User Mail: <%= ticket.user.mail_original %></li>
+      <li>User Name: <%= ticket.user.name + " " + ticket.user.last_name %> </li>
+    </ul>
+  </p>
+
+  <p>
+    <strong>Assign Executive info:</strong>
+    <ul>
+      <li>Executive Mail: <%= ticket.executive.mail_original %></li>
+      <li>Executive Name: <%= ticket.executive.name + " " + ticket.executive.last_name %> </li>
+    </ul>
+  </p>
+  
+  <p>
     <strong>Creation date:</strong>
     <%= ticket.created_at%>
   </p>

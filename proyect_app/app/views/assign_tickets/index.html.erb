@@ -4,11 +4,14 @@
 
 <div id="assign_tickets">
   <% @assign_tickets.each do |assign_ticket| %>
-    <%= render assign_ticket %>
-    <p>
-      <%= link_to "Show this assign ticket", executive_assign_ticket_path(assign_ticket.executive_mail,assign_ticket) %>
-    </p>
+  <% if assign_ticket.executive.mail == params[:executive_mail]%>
+      <%= render assign_ticket %>
+      <p>
+        <%= link_to "Show this assign ticket", executive_assign_ticket_path(assign_ticket.executive_mail,assign_ticket) %>
+      </p>
+    <% end %>
   <% end %>
+  <%= link_to "Back to executive", executive_path(params[:executive_mail]) %>
 </div>
 
 <%= link_to "New assign ticket", new_executive_assign_ticket_path %>

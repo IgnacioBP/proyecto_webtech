@@ -3,7 +3,13 @@
 <%= render @administrator %>
 
 <div>
+  <p>
+  <%= link_to "See Ticket Report", administrator_ticket_report_path(@administrator)%> |
+  <%= link_to "See Overdue Report", administrator_overdue_report_path(@administrator)%> |
+  <%= link_to "See Performance Report", administrator_performance_reports_path(@administrator) %>
+  </p>
   <%= link_to "Edit this administrator", edit_administrator_path(@administrator) %> |
+  <%= link_to "See all Tickets", administrator_tickets_path(@administrator) %>|
   <%= link_to "Back to administrators", administrators_path %>
 
   <%= button_to "Destroy this administrator", @administrator, method: :delete %>

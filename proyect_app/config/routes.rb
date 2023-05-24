@@ -64,10 +64,10 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/administrators/:administrator_mail/ticket_reports', to: 'tickets#ticket_report'
-  get '/administrators/:administrator_mail/overdue_reports', to: 'tickets#overdue_report'
-  get '/supervisors/:supervisor_mail/ticket_reports', to: 'tickets#ticket_report'
-  get '/supervisors/:supervisor_mail/overdue_reports', to: 'tickets#overdue_report'
+  get '/administrators/:administrator_mail/ticket_reports', to: 'tickets#ticket_report' , as: 'administrator_ticket_report'
+  get '/administrators/:administrator_mail/overdue_reports', to: 'tickets#overdue_report', as: 'administrator_overdue_report'
+  get '/supervisors/:supervisor_mail/ticket_reports', to: 'tickets#ticket_report', as: 'supervisor_ticket_report'
+  get '/supervisors/:supervisor_mail/overdue_reports', to: 'tickets#overdue_report', as: 'supervisor_overdue_report'
 
   resources :tickets
   resources :comments

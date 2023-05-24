@@ -3,7 +3,13 @@
 <%= render @supervisor %>
 
 <div>
+  <p>
+    <%= link_to "See Ticket Report",  supervisor_ticket_report_path(@supervisor)%> |
+    <%= link_to "See Overdue Report", supervisor_overdue_report_path(@supervisor)%> |
+    <%= link_to "See Performance Report", supervisor_performance_reports_path(@supervisor) %>
+  </p>
   <%= link_to "Edit this supervisor", edit_supervisor_path(@supervisor) %> |
+  <%= link_to "See all Tickets",  supervisor_tickets_path(@supervisor) %>|
   <%= link_to "Back to supervisors", supervisors_path %>
 
   <%= button_to "Destroy this supervisor", @supervisor, method: :delete %>
