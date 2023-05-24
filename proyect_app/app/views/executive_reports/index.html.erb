@@ -6,12 +6,27 @@
   <% @executive_reports.each do |executive_report| %>
     <% if executive_report.performance_report.id == params[:performance_report_id].to_d %>
       <%= render executive_report %>
-      <p>
-        <%= link_to "Show this executive report", executive_report %>
-      </p>
+
+        <p>
+      <% if params[:administrator_mail].present?%>
+          <%= link_to "Show this executive report", administrator_performance_report_executive_report_path(params[:administrator_mail],params[:performance_report_id],executive_report) %> 
+      <% elsif params[:supervisor_mail].present?%>
+          <%= link_to "Show this executive report", supervisor_performance_report_executive_report_path(params[:supervisor_mail],params[:performance_report_id],executive_report) %>
+      <%end%>  
+        </p>
     <%end%>
   <% end %>
 </div>
 
 
-<%= link_to "New executive report", new_executive_report_path %>
+  <p>
+  <% if params[:administrator_mail].present?%>
+      <%= link_to "Back to the performance report", administrator_performance_reports_path(params[:administrator_mail]) %>
+      <p><%= link_to "New executive report", new_administrator_performance_report_executive_report_path %></p>
+  <% elsif params[:supervisor_mail].present?%>
+  
+  <%= link_to "Back to the performance report", supervisor_performance_reports_path(params[:supervisor_mail]) %>
+      <p><%= link_to "New executive report", new_supervisor_performance_report_executive_report_path %></p>
+  <%end%>  
+  </p>
+

@@ -1,7 +1,10 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @ticket %>
-
+ <% if params[:administrator_mail].present? || params[:supervisor_mail].present? || params[:executive_mail].present?%>
+   <%= link_to "Check Tags", executive_assign_ticket_ticket_tag_lists_path(params[:executive_mail],params[:assign_ticket_id],@ticket) %>
+   <%= link_to "Check Chat", executive_assign_ticket_ticket_chats_path(params[:executive_mail],params[:assign_ticket_id],@ticket) %>
+ <%end%>
 <div>
   <%= link_to "Edit this ticket", edit_ticket_path(@ticket) %> |
   <%= link_to "Back to tickets", tickets_path %>

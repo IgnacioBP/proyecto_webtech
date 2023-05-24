@@ -4,10 +4,12 @@
 
 <div id="chats">
   <% @chats.each do |chat| %>
+   <% if chat.ticket.id == params[:ticket_id].to_d%>
     <%= render chat %>
     <p>
       <%= link_to "Show this chat", chat %>
     </p>
+    <%end%>
   <% end %>
 </div>
 

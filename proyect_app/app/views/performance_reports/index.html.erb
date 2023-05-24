@@ -17,7 +17,7 @@
 </div>
 <p>
     <% if params[:administrator_mail].present?%>
-        <%= link_to "Back to the administrator", administrator_path(params[:administrator_mail]) %> |
+        <%= link_to "Back to the administrator", administrator_path(params[:administrator_mail]) %> 
         <p><%= link_to "New performance report", new_administrator_performance_report_path %></p>
     <% elsif params[:supervisor_mail].present?%>
         <%= link_to "Back to the supervisor", supervisor_path(params[:supervisor_mail]) %> 

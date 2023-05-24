@@ -3,8 +3,17 @@
 <%= render @executive_report %>
 
 <div>
-  <%= link_to "Edit this executive report", edit_executive_report_path(@executive_report) %> |
-  <%= link_to "Back to executive reports", executive_reports_path %>
+<p>
+  
+    <% if params[:administrator_mail].present?%>
+      <%= link_to "Edit this executive report",  edit_administrator_performance_report_executive_report_path(params[:administrator_mail],params[:performance_report_id],@executive_report) %> |
+      <%= link_to "Back to executive reports", administrator_performance_report_executive_reports_path %>
+    <% elsif params[:supervisor_mail].present?%>
+      <%= link_to "Edit this executive report",  edit_supervisor_performance_report_executive_report_path(params[:supervisor_mail],params[:performance_report_id],@executive_report) %> |
+      <%= link_to "Back to executive reports", supervisor_performance_report_executive_reports_path %>
+    <%end%>
+      
+</p>
 
   <%= button_to "Destroy this executive report", @executive_report, method: :delete %>
 </div>

@@ -6,7 +6,6 @@ Por Hacer:
     Back hacis Administrator, Supervisor, AssignTicket, TicketList desde Ticket
     Back hacia Performance report desde ExecutiveReport
     Show de Tag y Comment en Ticket
-    Fix the links in ExecutiveReports
     Block the 'show' of Ticket depending on the 'User Type'
 
 Ver como:

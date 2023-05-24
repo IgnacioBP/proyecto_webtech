@@ -4,10 +4,12 @@
 
 <div id="tag_lists">
   <% @tag_lists.each do |tag_list| %>
+  <% if tag_list.ticket.id == params[:ticket_id].to_d%>
     <%= render tag_list %>
     <p>
       <%= link_to "Show this tag list", tag_list %>
     </p>
+    <%end%>
   <% end %>
 </div>
 
