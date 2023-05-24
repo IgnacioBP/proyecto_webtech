@@ -5,5 +5,13 @@
 <br>
 
 <div>
-  <%= link_to "Back to performance reports", performance_reports_path %>
+
+  <% if params[:administrator_mail].present?%>
+       <%= link_to "Back to performance reports", administrator_performance_reports_path %> 
+  <% elsif params[:supervisor_mail].present?%>
+       <%= link_to "Back to performance reports", supervisor_performance_reports_path %>
+  <%end%>
+
+
+
 </div>

@@ -4,11 +4,14 @@
 
 <div id="executive_reports">
   <% @executive_reports.each do |executive_report| %>
-    <%= render executive_report %>
-    <p>
-      <%= link_to "Show this executive report", executive_report %>
-    </p>
+    <% if executive_report.performance_report.id == params[:performance_report_id].to_d %>
+      <%= render executive_report %>
+      <p>
+        <%= link_to "Show this executive report", executive_report %>
+      </p>
+    <%end%>
   <% end %>
 </div>
+
 
 <%= link_to "New executive report", new_executive_report_path %>

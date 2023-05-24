@@ -1,1 +1,9 @@
 Overdue Report
+
+<p>
+    <% if params[:administrator_mail].present?%>
+        <%= link_to "Back to the administrator", administrator_path(params[:administrator_mail]) %>
+    <% elsif params[:supervisor_mail].present?%>
+        <%= link_to "Back to the supervisor", supervisor_path(params[:supervisor_mail]) %>
+    <%end%>
+</p>

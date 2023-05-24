@@ -1,2 +1,16 @@
 <div id="<%= dom_id executive_report %>">
+
+    <p>
+        <strong>Executive info:</strong>
+        <ul>
+        <li>Mail: <%= executive_report.executive.mail %></li>
+        <li>Star calification: <%= executive_report.executive.stars_value %></li>
+        <li>Ticket closed: <%= executive_report.executive.closed_count %></li>
+        </ul>
+    </p>
+
+    <p>
+        <strong>Performance report id:</strong>
+        <%= executive_report.performance_report.id %>
+    </p>
 </div>
