@@ -6,9 +6,9 @@
   <% @assign_tickets.each do |assign_ticket| %>
     <%= render assign_ticket %>
     <p>
-      <%= link_to "Show this assign ticket", assign_ticket %>
+      <%= link_to "Show this assign ticket", executive_assign_ticket_path(assign_ticket.executive_mail,assign_ticket) %>
     </p>
   <% end %>
 </div>
 
-<%= link_to "New assign ticket", new_assign_ticket_path %>
+<%= link_to "New assign ticket", new_executive_assign_ticket_path %>

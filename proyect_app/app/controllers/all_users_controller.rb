@@ -8,53 +8,32 @@ class AllUsersController < ApplicationController
 
   # GET /all_users/1 or /all_users/1.json
   def show
+    redirect_to all_users_url
   end
 
   # GET /all_users/new
   def new
-    @all_user = AllUser.new
+    redirect_to all_users_url
   end
 
   # GET /all_users/1/edit
   def edit
+    redirect_to all_users_url
   end
 
   # POST /all_users or /all_users.json
   def create
-    @all_user = AllUser.new(all_user_params)
-
-    respond_to do |format|
-      if @all_user.save
-        format.html { redirect_to all_user_url(@all_user), notice: "All user was successfully created." }
-        format.json { render :show, status: :created, location: @all_user }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @all_user.errors, status: :unprocessable_entity }
-      end
-    end
+    redirect_to all_users_url
   end
 
   # PATCH/PUT /all_users/1 or /all_users/1.json
   def update
-    respond_to do |format|
-      if @all_user.update(all_user_params)
-        format.html { redirect_to all_user_url(@all_user), notice: "All user was successfully updated." }
-        format.json { render :show, status: :ok, location: @all_user }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @all_user.errors, status: :unprocessable_entity }
-      end
-    end
+    redirect_to all_users_url
   end
 
   # DELETE /all_users/1 or /all_users/1.json
   def destroy
-    @all_user.destroy
-
-    respond_to do |format|
-      format.html { redirect_to all_users_url, notice: "All user was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to all_users_url
   end
 
   private

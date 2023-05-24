@@ -3,8 +3,8 @@
 <%= render @assign_ticket %>
 
 <div>
-  <%= link_to "Edit this assign ticket", edit_assign_ticket_path(@assign_ticket) %> |
-  <%= link_to "Back to assign tickets", assign_tickets_path %>
+  <%= link_to "Edit this assign ticket",  edit_executive_assign_ticket_path(@assign_ticket) %> |
+  <%= link_to "Back to assign tickets",  executive_assign_tickets_path %>
 
-  <%= button_to "Destroy this assign ticket", @assign_ticket, method: :delete %>
+  <%= button_to "Destroy this assign ticket",executive_assign_ticket_path(@assign_ticket) , method: :delete %>
 </div>

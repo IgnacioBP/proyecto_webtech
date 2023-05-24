@@ -6,9 +6,9 @@
   <% @ticket_lists.each do |ticket_list| %>
     <%= render ticket_list %>
     <p>
-      <%= link_to "Show this ticket list", ticket_list %>
+      <%= link_to "Show this ticket list", user_ticket_list_path(ticket_list.user_mail,ticket_list) %>
     </p>
   <% end %>
 </div>
 
-<%= link_to "New ticket list", new_ticket_list_path %>
+<%= link_to "New ticket list", new_user_ticket_list_path %>
