@@ -49,7 +49,7 @@ class SupervisorsController < ApplicationController
 
   # DELETE /supervisors/1 or /supervisors/1.json
   def destroy
-    @supervisor.destroy
+    @supervisor.delete_users
 
     respond_to do |format|
       format.html { redirect_to supervisors_url, notice: "Supervisor was successfully destroyed." }

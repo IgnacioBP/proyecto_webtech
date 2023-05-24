@@ -158,9 +158,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_23_172017) do
   create_table "tickets", force: :cascade do |t|
     t.string "title", null: false
     t.string "incident_description", null: false
-    t.datetime "creation_date", default: "2023-05-23 18:02:44", null: false
-    t.datetime "resolution_date", default: "2023-05-23 18:02:44", null: false
-    t.datetime "response_to_user_date", default: "2023-05-23 18:02:44", null: false
+    t.datetime "creation_date", default: "2023-05-23 23:24:19", null: false
+    t.datetime "resolution_date", default: "2023-05-23 23:24:19", null: false
+    t.datetime "response_to_user_date", default: "2023-05-23 23:24:19", null: false
     t.string "priority", default: "Low", null: false
     t.string "state", default: "Waiting", null: false
     t.string "resolution_key", default: "not yet", null: false
@@ -168,8 +168,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_23_172017) do
     t.string "response_to_user", default: " ", null: false
     t.string "accept_or_reject_solution", default: "Waiting", null: false
     t.integer "star_number", default: 0, null: false
-    t.datetime "limit_time_response", default: "2023-05-23 18:02:44", null: false
-    t.datetime "limit_time_resolution", default: "2023-05-23 18:02:44", null: false
+    t.datetime "limit_time_response", default: "2023-05-23 23:24:19", null: false
+    t.datetime "limit_time_resolution", default: "2023-05-23 23:24:19", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

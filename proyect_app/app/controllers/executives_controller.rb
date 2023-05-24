@@ -49,7 +49,7 @@ class ExecutivesController < ApplicationController
 
   # DELETE /executives/1 or /executives/1.json
   def destroy
-    @executive.destroy
+    @executive.delete_users
 
     respond_to do |format|
       format.html { redirect_to executives_url, notice: "Executive was successfully destroyed." }

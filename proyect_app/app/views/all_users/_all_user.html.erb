@@ -8,4 +8,25 @@
     <strong>Account Level:</strong>
     <%= all_user.account_level %>
   </p>
+
+  <p>
+    <strong>Account info:</strong>
+
+    <%if all_user.account_level=="Executive"%>
+      <%= link_to "Executive profile", all_user.executive %>
+
+    <%elsif all_user.account_level=="User"%>
+      <%= link_to "User profile", all_user.user %>
+
+    <%elsif all_user.account_level=="Supervisor"%>
+      <%= link_to "Supervisor profile", all_user.supervisor %>
+
+    <%elsif all_user.account_level=="Administrator"%>
+      <%= link_to "Administrator profile", all_user.administrator %>
+      
+    <%end%>
+  </p>
+
+
+
 </div>
