@@ -3,8 +3,19 @@
 <%= render @comment %>
 
 <div>
-  <%= link_to "Edit this comment", edit_comment_path(@comment) %> |
-  <%= link_to "Back to comments", comments_path %>
+
+<p>
+    <% if params[:executive_mail].present?%>
+        <%= link_to "Edit Comment", edit_executive_assign_ticket_ticket_chat_comment_path(params[:executive_mail],params[:assign_ticket_id],params[:ticket_id],@comment.chat, @comment) %>  
+        <%= link_to "Back to Comments", executive_assign_ticket_ticket_chat_comments_path %>
+    <% elsif params[:supervisor_mail].present?%>
+      <%= link_to "Edit Comment", edit_supervisor_ticket_chat_comment_path(params[:supervisor_mail],params[:ticket_id],@comment.chat, @comment) %>  
+      <%= link_to "Back to Comments", supervisor_ticket_chat_comments_path %>
+    <% elsif params[:administrator_mail].present?%>
+      <%= link_to "Edit Comment", edit_administrator_ticket_chat_comment_path(params[:administrator_mail],params[:ticket_id],@comment.chat, @comment) %>  
+      <%= link_to "Back to Comments",administrator_ticket_chat_comments_path %>
+    <%end%>
+  </p>
 
   <%= button_to "Destroy this comment", @comment, method: :delete %>
 </div>

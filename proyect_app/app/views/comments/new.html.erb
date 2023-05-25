@@ -5,5 +5,16 @@
 <br>
 
 <div>
-  <%= link_to "Back to comments", comments_path %>
+
+  <p>
+    <% if params[:executive_mail].present?%>
+      <%= link_to "Back to comments", executive_assign_ticket_ticket_chat_comments_path %>
+    <% elsif params[:supervisor_mail].present?%>
+      <%= link_to "Back to comments", supervisor_ticket_chat_comments_path %>
+    <% elsif params[:administrator_mail].present?%>
+      <%= link_to "Back to comments",administrator_ticket_chat_comments_path %>  
+    <%end%>
+  </p>
+
+
 </div>

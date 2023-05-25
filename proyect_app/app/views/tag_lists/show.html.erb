@@ -3,8 +3,18 @@
 <%= render @tag_list %>
 
 <div>
-  <%= link_to "Edit this tag list", edit_tag_list_path(@tag_list) %> |
-  <%= link_to "Back to tag lists", tag_lists_path %>
+  <p>
+    <% if params[:executive_mail].present?%>
+        <%= link_to "Back to tag lists", executive_assign_ticket_ticket_tag_lists_path %>
+        <%= link_to "Check Tags", executive_assign_ticket_ticket_tag_list_tags_path(params[:executive_mail],params[:assign_ticket_id],@tag_list.ticket,@tag_list) %>  
+    <% elsif params[:supervisor_mail].present?%>
+      <%= link_to "Back to tag lists", supervisor_ticket_tag_lists_path %>
+      <%= link_to "Check Tags", supervisor_ticket_tag_list_tags_path(params[:supervisor_mail],@tag_list.ticket,@tag_list) %>  
+    <% elsif params[:administrator_mail].present?%>
+      <%= link_to "Back to tag lists",administrator_ticket_tag_lists_path %>
+      <%= link_to "Check Tags", administrator_ticket_tag_list_tags_path(params[:administrator_mail],@tag_list.ticket,@tag_list) %>  
+    <%end%>
+  </p>
+  
 
-  <%= button_to "Destroy this tag list", @tag_list, method: :delete %>
 </div>

@@ -12,11 +12,12 @@ class TagListsController < ApplicationController
 
   # GET /tag_lists/new
   def new
-    @tag_list = TagList.new
+    redirect_to tag_lists_url
   end
 
   # GET /tag_lists/1/edit
   def edit
+    redirect_to tag_lists_url
   end
 
   # POST /tag_lists or /tag_lists.json

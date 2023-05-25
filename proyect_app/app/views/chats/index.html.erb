@@ -7,10 +7,19 @@
    <% if chat.ticket.id == params[:ticket_id].to_d%>
     <%= render chat %>
     <p>
-      <%= link_to "Show this chat", chat %>
+        <% if params[:executive_mail].present?%>
+          <%= link_to "Show this chat", executive_assign_ticket_ticket_chat_path(params[:executive_mail],params[:assign_ticket_id],chat.ticket,chat)%>
+          <%= link_to "Back to ticket", executive_assign_ticket_ticket_path(params[:executive_mail],params[:assign_ticket_id], chat.ticket)%>
+        <% elsif params[:supervisor_mail].present?%>
+          <%= link_to "Show this chat", supervisor_ticket_chat_path(params[:supervisor_mail],chat.ticket,chat)%>
+          <%= link_to "Back to ticket", supervisor_ticket_path(params[:supervisor_mail],chat.ticket)%>
+        <% elsif params[:administrator_mail].present?%>
+          <%= link_to "Show this chat", administrator_ticket_chat_path(params[:administrator_mail],chat.ticket,chat)%>
+          <%= link_to "Back to ticket", administrator_ticket_path(params[:administrator_mail],chat.ticket)%>
+        <%end%>
     </p>
+
     <%end%>
   <% end %>
 </div>
 
-<%= link_to "New chat", new_chat_path %>

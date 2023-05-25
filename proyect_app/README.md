@@ -1,19 +1,8 @@
 # README
 
-Por Hacer:
-
-    Back hacia All Users desde User, Executive, Supervisor, Administrator
-    Back hacis Administrator, Supervisor, AssignTicket, TicketList desde Ticket
-    Back hacia Performance report desde ExecutiveReport
-    Show de Tag y Comment en Ticket
-    Block the 'show' of Ticket depending on the 'User Type'
-
 Ver como:
 
-    
-    Manejar las rutas de mejor manera
-
-    Arreglar las vistas
+     Hacer las vista un poco mas amigables
 
     
     

@@ -3,8 +3,21 @@
 <%= render @chat %>
 
 <div>
-  <%= link_to "Edit this chat", edit_chat_path(@chat) %> |
-  <%= link_to "Back to chats", chats_path %>
 
-  <%= button_to "Destroy this chat", @chat, method: :delete %>
+  <p>
+    <% if params[:executive_mail].present?%>
+        <%= link_to "Back to chats", executive_assign_ticket_ticket_chats_path %>
+        <%= link_to "Check Comments", executive_assign_ticket_ticket_chat_comments_path(params[:executive_mail],params[:assign_ticket_id],@chat.ticket,@chat) %>  
+    <% elsif params[:supervisor_mail].present?%>
+      <%= link_to "Back to chats", supervisor_ticket_chats_path %>
+      <%= link_to "Check Comments", supervisor_ticket_chat_comments_path(params[:supervisor_mail],@chat.ticket,@chat) %>  
+    <% elsif params[:administrator_mail].present?%>
+      <%= link_to "Back to chats",administrator_ticket_chats_path %>
+      <%= link_to "Check Comments", administrator_ticket_chat_comments_path(params[:administrator_mail],@chat.ticket,@chat) %>  
+    <%end%>
+  </p>
+
+
+
+  
 </div>

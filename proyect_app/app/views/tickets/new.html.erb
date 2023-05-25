@@ -5,5 +5,14 @@
 <br>
 
 <div>
-  <%= link_to "Back to tickets", tickets_path %>
+
+  <% if params[:user_mail].present?%>
+   <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
+  <% elsif params[:executive_mail].present?%>
+   <%= link_to "Back to tickets", executive_assign_ticket_tickets_path %>
+ <% elsif params[:supervisor_mail].present?%>
+   <%= link_to "Back to tickets", supervisor_tickets_path %>
+ <% elsif params[:administrator_mail].present?%>
+   <%= link_to "Back to tickets", administrator_tickets_path %>
+ <%end%>
 </div>

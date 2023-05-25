@@ -4,11 +4,35 @@
 
 <div id="comments">
   <% @comments.each do |comment| %>
-    <%= render comment %>
-    <p>
-      <%= link_to "Show this comment", comment %>
-    </p>
+    <% if comment.chat.id == params[:chat_id].to_d%>
+        <%= render comment %>
+        <p>
+          <% if params[:executive_mail].present?%>
+            <%= link_to "Show this comment", executive_assign_ticket_ticket_chat_comment_path(params[:executive_mail],params[:assign_ticket_id],params[:ticket_id],comment.chat, comment)%>
+          <% elsif params[:supervisor_mail].present?%>
+            <%= link_to "Show this comment", supervisor_ticket_chat_comment_path(params[:supervisor_mail],params[:ticket_id],comment.chat, comment)%>
+          <% elsif params[:administrator_mail].present?%>
+            <%= link_to "Show this comment", administrator_ticket_chat_comment_path(params[:administrator_mail],params[:ticket_id],comment.chat, comment)%>
+            <%end%>
+
+        </p>
+    <%end%>
   <% end %>
+
 </div>
 
-<%= link_to "New comment", new_comment_path %>
+<% if params[:executive_mail].present?%>
+        <%= link_to "Back to chat", executive_assign_ticket_ticket_chat_path(params[:executive_mail],params[:assign_ticket_id],params[:ticket_id], params[:chat_id])%>
+        <br>
+      <%= link_to "New comment", new_executive_assign_ticket_ticket_chat_comment_path(params[:executive_mail],params[:assign_ticket_id],params[:ticket_id], params[:chat_id]) %>
+<% elsif params[:supervisor_mail].present?%>
+        <%= link_to "Back to chat", supervisor_ticket_chat_path(params[:supervisor_mail],params[:ticket_id], params[:chat_id])%>
+        <br>
+        <%= link_to "New comment", new_supervisor_ticket_chat_comment_path(params[:supervisor_mail],params[:ticket_id], params[:chat_id]) %>
+<% elsif params[:administrator_mail].present?%>
+        <%= link_to "Back to chat", administrator_ticket_chat_path(params[:administrator_mail],params[:ticket_id],params[:chat_id])%>
+        <br>
+        <%= link_to "New comment", new_administrator_ticket_chat_comment_path(params[:administrator_mail],params[:ticket_id],params[:chat_id]) %>
+<%end%>
+
+

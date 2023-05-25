@@ -4,11 +4,33 @@
 
 <div id="tags">
   <% @tags.each do |tag| %>
-    <%= render tag %>
-    <p>
-      <%= link_to "Show this tag", tag %>
-    </p>
+    <% if tag.tag_list.id == params[:tag_list_id].to_d%>
+      <%= render tag %>
+      <p>
+        <% if params[:executive_mail].present?%>
+          <%= link_to "Show this tag", executive_assign_ticket_ticket_tag_list_tag_path(params[:executive_mail],params[:assign_ticket_id],params[:ticket_id],tag.tag_list, tag)%>
+        <% elsif params[:supervisor_mail].present?%>
+          <%= link_to "Show this tag", supervisor_ticket_tag_list_tag_path(params[:supervisor_mail],params[:ticket_id],tag.tag_list, tag)%>
+        <% elsif params[:administrator_mail].present?%>
+          <%= link_to "Show this tag", administrator_ticket_tag_list_tag_path(params[:administrator_mail],params[:ticket_id],tag.tag_list, tag)%>
+          <%end%>
+
+      </p>
+    <%end%>
   <% end %>
 </div>
 
-<%= link_to "New tag", new_tag_path %>
+<% if params[:executive_mail].present?%>
+        <%= link_to "Back to tag list", executive_assign_ticket_ticket_tag_list_path(params[:executive_mail],params[:assign_ticket_id],params[:ticket_id], params[:tag_list_id])%>
+        <br>
+      <%= link_to "New tag", new_executive_assign_ticket_ticket_tag_list_tag_path(params[:executive_mail],params[:assign_ticket_id],params[:ticket_id], params[:tag_list_id]) %>
+<% elsif params[:supervisor_mail].present?%>
+        <%= link_to "Back to tag list", supervisor_ticket_tag_list_path(params[:supervisor_mail],params[:ticket_id], params[:tag_list_id])%>
+        <br>
+        <%= link_to "New tag", new_supervisor_ticket_tag_list_tag_path(params[:supervisor_mail],params[:ticket_id], params[:tag_list_id]) %>
+<% elsif params[:administrator_mail].present?%>
+        <%= link_to "Back to tag list", administrator_ticket_tag_list_path(params[:administrator_mail],params[:ticket_id],params[:tag_list_id])%>
+        <br>
+        <%= link_to "New tag", new_administrator_ticket_tag_list_tag_path(params[:administrator_mail],params[:ticket_id],params[:tag_list_id]) %>
+<%end%>
+

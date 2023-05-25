@@ -4,13 +4,20 @@
 
 <div id="tag_lists">
   <% @tag_lists.each do |tag_list| %>
-  <% if tag_list.ticket.id == params[:ticket_id].to_d%>
-    <%= render tag_list %>
-    <p>
-      <%= link_to "Show this tag list", tag_list %>
-    </p>
+    <% if tag_list.ticket.id == params[:ticket_id].to_d%>
+      <%= render tag_list %>
+      <p>
+        <% if params[:executive_mail].present?%>
+          <%= link_to "Show this tag list", executive_assign_ticket_ticket_tag_list_path(params[:executive_mail],params[:assign_ticket_id],tag_list.ticket,tag_list)%>
+          <%= link_to "Back to ticket", executive_assign_ticket_ticket_path(params[:executive_mail],params[:assign_ticket_id], tag_list.ticket)%>
+        <% elsif params[:supervisor_mail].present?%>
+          <%= link_to "Show this tag list", supervisor_ticket_tag_list_path(params[:supervisor_mail],tag_list.ticket,tag_list)%>
+          <%= link_to "Back to ticket", supervisor_ticket_path(params[:supervisor_mail],tag_list.ticket)%>
+        <% elsif params[:administrator_mail].present?%>
+          <%= link_to "Show this tag list", administrator_ticket_tag_list_path(params[:administrator_mail],tag_list.ticket,tag_list)%>
+          <%= link_to "Back to ticket", administrator_ticket_path(params[:administrator_mail],tag_list.ticket)%>
+        <%end%>
+      </p>
     <%end%>
   <% end %>
 </div>
-
-<%= link_to "New tag list", new_tag_list_path %>
