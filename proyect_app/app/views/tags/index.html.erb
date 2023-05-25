@@ -1,10 +1,11 @@
 <p style="color: green"><%= notice %></p>
-
+<div class="text-center">
 <h1>Tags</h1>
-
+</div>
 <div id="tags">
   <% @tags.each do |tag| %>
     <% if tag.tag_list.id == params[:tag_list_id].to_d%>
+    <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
       <%= render tag %>
       <p>
         <% if params[:executive_mail].present?%>
@@ -16,10 +17,13 @@
           <%end%>
 
       </p>
+      </div>
+      <br>
     <%end%>
   <% end %>
 </div>
 
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <% if params[:executive_mail].present?%>
         <%= link_to "Back to tag list", executive_assign_ticket_ticket_tag_list_path(params[:executive_mail],params[:assign_ticket_id],params[:ticket_id], params[:tag_list_id])%>
         <br>
@@ -34,3 +38,4 @@
         <%= link_to "New tag", new_administrator_ticket_tag_list_tag_path(params[:administrator_mail],params[:ticket_id],params[:tag_list_id]) %>
 <%end%>
 
+</div>

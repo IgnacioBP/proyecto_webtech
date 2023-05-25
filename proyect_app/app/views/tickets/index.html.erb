@@ -1,33 +1,48 @@
 <p style="color: green"><%= notice %></p>
-
+<div class="text-center">
 <h1>Tickets</h1>
+</div>
 
 <div id="tickets">
   <% @tickets.each do |ticket| %>
+  
      <% if params[:user_mail].present?%>
+     
       <% if ticket.user.mail==params[:user_mail]%>
+      <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
         <%= render ticket %>
         <%= link_to "Show this ticket", user_ticket_list_ticket_path(params[:user_mail],ticket.ticket_list,ticket) %>
+       </div>
+      <br>
       <%end%>
+     
     <% elsif params[:executive_mail].present?%>
+    
       <% if ticket.executive.mail==params[:executive_mail]%>
+      <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
         <%= render ticket %>
         <%= link_to "Show this ticket", executive_assign_ticket_ticket_path(params[:executive_mail],ticket.assign_ticket,ticket) %>
-      <%end%>
+      </div>
+    <br>
+    <%end%>
+    
     <%else%>
+    <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
       <%= render ticket %>
        <% if params[:supervisor_mail].present?%>
         <%= link_to "Show this ticket", supervisor_ticket_path(params[:supervisor_mail],ticket) %>
       <% elsif params[:administrator_mail].present?%>
           <%= link_to "Show this ticket", administrator_ticket_path(params[:administrator_mail],ticket) %>
       <%end%>
+      </div>
+      <br>
     <%end%>
 
     
     
   <% end %>
 </div>
-
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <% if params[:user_mail].present?%>
   <%= link_to "New ticket", new_user_ticket_list_ticket_path(params[:user_mail],params[:ticket_list_id]) %>
   <br>
@@ -47,4 +62,5 @@
 <%else%>
   <%= link_to "Back to Home Page", "/"%>
 <%end%>
+</div>
 

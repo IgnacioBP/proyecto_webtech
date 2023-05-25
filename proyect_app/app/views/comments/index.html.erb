@@ -1,10 +1,11 @@
 <p style="color: green"><%= notice %></p>
-
+<div class="text-center">
 <h1>Comments</h1>
-
+</div>
 <div id="comments">
   <% @comments.each do |comment| %>
     <% if comment.chat.id == params[:chat_id].to_d%>
+    <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
         <%= render comment %>
         <p>
           <% if params[:executive_mail].present?%>
@@ -16,11 +17,14 @@
             <%end%>
 
         </p>
+      </div>
+      <br>
     <%end%>
   <% end %>
 
 </div>
 
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <% if params[:executive_mail].present?%>
         <%= link_to "Back to chat", executive_assign_ticket_ticket_chat_path(params[:executive_mail],params[:assign_ticket_id],params[:ticket_id], params[:chat_id])%>
         <br>
@@ -34,5 +38,6 @@
         <br>
         <%= link_to "New comment", new_administrator_ticket_chat_comment_path(params[:administrator_mail],params[:ticket_id],params[:chat_id]) %>
 <%end%>
+</div>
 
 

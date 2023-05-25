@@ -1,5 +1,5 @@
 <p style="color: green"><%= notice %></p>
-
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <%= render @assign_ticket %>
 
 <div>
@@ -8,4 +8,6 @@
   <%= link_to "Back to assign tickets",  executive_assign_tickets_path %>
 
   <%= button_to "Destroy this assign ticket",executive_assign_ticket_path(@assign_ticket) , method: :delete %>
+</div>
+
 </div>

@@ -1,9 +1,10 @@
 <p style="color: green"><%= notice %></p>
-
+<div class="text-center">
 <h1>Performance reports</h1>
-
+</div>
 <div id="performance_reports">
   <% @performance_reports.each do |performance_report| %>
+  <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
     <%= render performance_report %>
     <p>
     <% if params[:administrator_mail].present?%>
@@ -13,8 +14,11 @@
     <%end%>
       
     </p>
+    </div>
+    <br>
   <% end %>
 </div>
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <p>
     <% if params[:administrator_mail].present?%>
         <%= link_to "Back to the administrator", administrator_path(params[:administrator_mail]) %> 
@@ -24,6 +28,7 @@
         <p><%= link_to "New performance report", new_supervisor_performance_report_path %></p>
     <%end%>
 </p>
+</div>
 
 
 

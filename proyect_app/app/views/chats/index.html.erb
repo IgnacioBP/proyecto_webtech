@@ -1,10 +1,11 @@
 <p style="color: green"><%= notice %></p>
-
+<div class="text-center">
 <h1>Chats</h1>
-
+</div>
 <div id="chats">
   <% @chats.each do |chat| %>
    <% if chat.ticket.id == params[:ticket_id].to_d%>
+   <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
     <%= render chat %>
     <p>
         <% if params[:executive_mail].present?%>
@@ -18,7 +19,8 @@
           <%= link_to "Back to ticket", administrator_ticket_path(params[:administrator_mail],chat.ticket)%>
         <%end%>
     </p>
-
+  </div>
+  <br>
     <%end%>
   <% end %>
 </div>

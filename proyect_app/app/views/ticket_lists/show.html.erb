@@ -1,5 +1,5 @@
 <p style="color: green"><%= notice %></p>
-
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <%= render @ticket_list %>
 
 <div>
@@ -8,4 +8,5 @@
   <%= link_to "Back to ticket lists", user_ticket_lists_path %>
 
   <%= button_to "Destroy this ticket list", user_ticket_list_path(@ticket_list), method: :delete %>
+</div>
 </div>

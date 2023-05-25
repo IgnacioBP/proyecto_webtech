@@ -1,5 +1,6 @@
 <p style="color: green"><%= notice %></p>
 
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <%= render @supervisor %>
 
 <div>
@@ -13,4 +14,6 @@
   <%= link_to "Back to supervisors", supervisors_path %>
 
   <%= button_to "Destroy this supervisor", @supervisor, method: :delete %>
+</div>
+
 </div>

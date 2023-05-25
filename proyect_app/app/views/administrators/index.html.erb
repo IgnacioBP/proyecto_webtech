@@ -1,16 +1,23 @@
 <p style="color: green"><%= notice %></p>
 
+<div class="text-center">
 <h1>Administrators</h1>
+</div>
 
 <div id="administrators">
   <% @administrators.each do |administrator| %>
+   <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
     <%= render administrator %>
     <p>
       <%= link_to "Show this administrator", administrator %>
     </p>
+    </div>
+    <br>
   <% end %>
 </div>
 
+ <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <%= link_to "New administrator", new_administrator_path %>
 <br>
 <%= link_to "Back to Home Page", "/"%>
+</div>
