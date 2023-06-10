@@ -5,23 +5,20 @@
       <li class="nav-item active">
         <a class="nav-link" href="/">Home </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/users">Users</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/executives">Executives</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/supervisors">Supervisors</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/administrators">Administrator</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/all_users">All accounts</a>
-      </li>
+      <%if current_user.Supervisor? or current_user.Administrator?  %>
+        <li class="nav-item">
+          <a class="nav-link" href="/users">Users</a>
+        </li>
+      <%end  %>
+          
       <li class="nav-item">
         <a class="nav-link" href="/tickets">Tickets</a>
+      </li>
+      <li>
+         <%= link_to 'Profile information', user_path(current_user), :class=> 'nav-link ' %>
+      </li>
+      <li>
+          <%= link_to 'Logout?', destroy_user_session_path, method: :delete,  :class=> 'nav-link btn btn-primary' %>
       </li>
   </div>
 </nav>

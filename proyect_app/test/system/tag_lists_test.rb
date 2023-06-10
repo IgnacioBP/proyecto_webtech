@@ -14,6 +14,7 @@ class TagListsTest < ApplicationSystemTestCase
     visit tag_lists_url
     click_on "New tag list"
 
+    fill_in "Ticket", with: @tag_list.ticket_id
     click_on "Create Tag list"
 
     assert_text "Tag list was successfully created"
@@ -24,6 +25,7 @@ class TagListsTest < ApplicationSystemTestCase
     visit tag_list_url(@tag_list)
     click_on "Edit this tag list", match: :first
 
+    fill_in "Ticket", with: @tag_list.ticket_id
     click_on "Update Tag list"
 
     assert_text "Tag list was successfully updated"

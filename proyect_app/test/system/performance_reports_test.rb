@@ -15,6 +15,7 @@ class PerformanceReportsTest < ApplicationSystemTestCase
     click_on "New performance report"
 
     fill_in "Report date", with: @performance_report.report_date
+    fill_in "User", with: @performance_report.user_id
     click_on "Create Performance report"
 
     assert_text "Performance report was successfully created"
@@ -26,6 +27,7 @@ class PerformanceReportsTest < ApplicationSystemTestCase
     click_on "Edit this performance report", match: :first
 
     fill_in "Report date", with: @performance_report.report_date
+    fill_in "User", with: @performance_report.user_id
     click_on "Update Performance report"
 
     assert_text "Performance report was successfully updated"

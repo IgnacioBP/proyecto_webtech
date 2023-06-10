@@ -1,22 +1,39 @@
 <p style="color: green"><%= notice %></p>
+
+
+<%current_ticket= Ticket.find(params[:ticket_id])%>
+<%current_taglist= TagList.find(params[:tag_list_id])%>
+
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+
 <%= render @tag %>
 
 <div>
-<p>
-    <% if params[:executive_mail].present?%>
-        <%= link_to "Edit Tags", edit_executive_assign_ticket_ticket_tag_list_tag_path(params[:executive_mail],params[:assign_ticket_id],params[:ticket_id],@tag.tag_list, @tag) %>  
-        <%= link_to "Back to tags", executive_assign_ticket_ticket_tag_list_tags_path %>
-    <% elsif params[:supervisor_mail].present?%>
-      <%= link_to "Edit Tag", edit_supervisor_ticket_tag_list_tag_path(params[:supervisor_mail],params[:ticket_id],@tag.tag_list, @tag) %>  
-      <%= link_to "Back to tags", supervisor_ticket_tag_list_tags_path %>
-    <% elsif params[:administrator_mail].present?%>
-      <%= link_to "Edit Tags", edit_administrator_ticket_tag_list_tag_path(params[:administrator_mail],params[:ticket_id],@tag.tag_list, @tag) %>  
-      <%= link_to "Back to tags",administrator_ticket_tag_list_tags_path %>
-    <%end%>
-  </p>
+  <%if current_user.Executive?  %>
+        <% if params[:ticket_list_id].present?%>
+          <p>
+             <%= link_to "Edit Tag", edit_user_ticket_list_ticket_tag_list_tag_path(current_user,current_ticket.ticket_list,current_ticket,current_taglist,@tag) %> |
+            <%= link_to "Back to tags", user_ticket_list_ticket_tag_list_tags_path(current_user,params[:ticket_list_id],current_ticket,current_taglist) %>          
+            <%= button_to "Destroy this tag", user_ticket_list_ticket_tag_list_tag_path(current_user,current_ticket.ticket_list,current_ticket,current_taglist,@tag), method: :delete %>
+            </p>
+        <%else  %>
+           <p>
+            <%= link_to "Edit Tag", edit_user_assign_ticket_ticket_tag_list_tag_path(current_user,current_ticket.assign_ticket,current_ticket,current_taglist,@tag) %> |
+            <%= link_to "Back to tags", user_assign_ticket_ticket_tag_list_tags_path(current_user,params[:assign_ticket_id],current_ticket,current_taglist) %>            
+            <%= button_to "Destroy this tag", user_assign_ticket_ticket_tag_list_tag_path(current_user,current_ticket.assign_ticket,current_ticket,current_taglist,@tag), method: :delete %>
+          </p>
+        <%end  %>
+      <%elsif current_user.Supervisor? or current_user.Administrator? %>
+        <p>
+            <%= link_to "Edit Tag", edit_user_ticket_tag_list_tag_path(current_user,current_ticket,current_taglist,@tag) %> |
+            <%= link_to "Back to tags",  user_ticket_tag_list_tags_path(current_user,current_ticket,current_taglist) %>            
+            <%= button_to "Destroy this tag", user_ticket_tag_list_tag_path(current_user,current_ticket,current_taglist,@tag), method: :delete  %>
+        </p>
 
-  <%= button_to "Destroy this tag", @tag, method: :delete %>
+      <%end  %>
+
+
 </div>
+
 
 </div>

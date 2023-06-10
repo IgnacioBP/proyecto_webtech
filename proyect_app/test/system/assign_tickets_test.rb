@@ -14,6 +14,8 @@ class AssignTicketsTest < ApplicationSystemTestCase
     visit assign_tickets_url
     click_on "New assign ticket"
 
+    fill_in "Ticket", with: @assign_ticket.ticket_id
+    fill_in "User", with: @assign_ticket.user_id
     click_on "Create Assign ticket"
 
     assert_text "Assign ticket was successfully created"
@@ -24,6 +26,8 @@ class AssignTicketsTest < ApplicationSystemTestCase
     visit assign_ticket_url(@assign_ticket)
     click_on "Edit this assign ticket", match: :first
 
+    fill_in "Ticket", with: @assign_ticket.ticket_id
+    fill_in "User", with: @assign_ticket.user_id
     click_on "Update Assign ticket"
 
     assert_text "Assign ticket was successfully updated"

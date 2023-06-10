@@ -1,9 +1,10 @@
 class AssignTicketsController < ApplicationController
   before_action :set_assign_ticket, only: %i[ show edit update destroy ]
-
+  before_action :authenticate_user!
   # GET /assign_tickets or /assign_tickets.json
   def index
     @assign_tickets = AssignTicket.all
+    session[:assign] = "yes"
   end
 
   # GET /assign_tickets/1 or /assign_tickets/1.json
@@ -12,11 +13,22 @@ class AssignTicketsController < ApplicationController
 
   # GET /assign_tickets/new
   def new
+
+    if current_user.Executive? or current_user.User? 
+      redirect_to user_tickets_path(current_user), alert: "You can't created assign tickets, only Supervisor and Administrators can"
+      return
+    end
+
     @assign_ticket = AssignTicket.new
   end
 
   # GET /assign_tickets/1/edit
   def edit
+
+    if current_user.Executive? or current_user.User? 
+      redirect_to user_tickets_path(current_user), alert: "You can't edit assign tickets, only Supervisor and Administrators can"
+      return
+    end
   end
 
   # POST /assign_tickets or /assign_tickets.json
@@ -65,6 +77,6 @@ class AssignTicketsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def assign_ticket_params
-      params.fetch(:assign_ticket, {})
+      params.require(:assign_ticket).permit(:user_id, :ticket_id)
     end
 end

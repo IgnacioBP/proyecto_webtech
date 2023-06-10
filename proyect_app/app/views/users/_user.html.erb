@@ -1,10 +1,5 @@
 <div id="<%= dom_id user %>">
   <p>
-    <strong>Mail:</strong>
-    <%= user.mail_original %>
-  </p>
-
-  <p>
     <strong>Name:</strong>
     <%= user.name %>
   </p>
@@ -15,13 +10,18 @@
   </p>
 
   <p>
+    <strong>Email:</strong>
+    <%= user.email %>
+  </p>
+
+  <p>
     <strong>Phone:</strong>
     <%= user.phone %>
   </p>
 
   <p>
-    <strong>Password:</strong>
-    <%= user.password %>
+    <strong>Profile:</strong>
+    <%= user.profile %>
   </p>
 
 </div>

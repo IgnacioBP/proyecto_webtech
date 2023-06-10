@@ -13,17 +13,23 @@
 
   <div>
     <%= form.label :text, style: "display: block" %>
-    <%= form.text_field :text %>
+    <%= form.text_area :text %>
   </div>
 
   <div>
-    <%= form.label :writer, style: "display: block" %>
-    <%= form.text_field :writer %>
+    <%= form.label :writer, style: "display: none" %>
+    <%= form.text_field :writer, value: current_user.name+" "+current_user.last_name, readonly: true, style: "display: none" %>
   </div>
 
-   <div>
-    <%= form.label :Chat, style: "display: block" %>
-    <%= form.text_field :chat_id %>
+  <div>
+    <%= form.label :chat_id, style: "display: none" %>
+    <%= form.text_field :chat_id, value: @current_chat_id, readonly: true, style: "display: none"%>
+  </div>
+
+  <div>
+    <%if params[:assign_ticket_id].present?  %>
+      <%= form.text_field :assign_list_nothing, value: "assign"+" "+params[:assign_ticket_id], readonly: true, style: "display: none"%>
+    <%end %>
   </div>
 
   <div>

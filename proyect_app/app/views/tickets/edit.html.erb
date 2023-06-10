@@ -1,3 +1,4 @@
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>Editing ticket</h1>
 
 <%= render "form", ticket: @ticket %>
@@ -6,25 +7,28 @@
 
 <div>
 
-  <% if params[:user_mail].present?%>
-   <%= link_to "Show this ticket", user_ticket_list_ticket_path(params[:user_mail],@ticket.ticket_list,@ticket) %>
-   <br>
-   <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
- 
-  <% elsif params[:executive_mail].present?%>
-   <%= link_to "Show this ticket", executive_assign_ticket_ticket_path(params[:executive_mail],@ticket.assign_ticket,@ticket) %>
-   <br>
-   <%= link_to "Back to tickets", executive_assign_ticket_tickets_path %>
- <% elsif params[:supervisor_mail].present?%>
-  <%= link_to "Show this ticket", supervisor_ticket_path(params[:supervisor_mail],@ticket) %>
-  <br>
-   <%= link_to "Back to tickets", supervisor_tickets_path %>
- 
- <% elsif params[:administrator_mail].present?%>
-    <%= link_to "Show this ticket", administrator_ticket_path(params[:administrator_mail],@ticket) %>
-   <br>
-   <%= link_to "Back to tickets", administrator_tickets_path %>
- 
- <%end%>
+  <%current_user= User.find(params[:user_id])%>
+  <%if current_user.User? %>
+  <p>
+    <%= link_to "Back to tickets", user_ticket_list_tickets_path %>|
+    <%= link_to "Show this ticket", user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],@ticket) %>
+    </p>
+  <%elsif current_user.Executive?  %>
+  <p>
+  <% if params[:ticket_list_id].present?%>
+    <%= link_to "Back to tickets", user_ticket_list_tickets_path %>|
+    <%= link_to "Show this ticket", user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],@ticket) %>
+  <%else  %>
+    <%= link_to "Back to tickets", user_assign_ticket_tickets_path %>|
+    <%= link_to "Show this ticket", user_assign_ticket_ticket_path(current_user.id,params[:assign_ticket_id],@ticket) %>
+  <%end  %>
+    </p>
+  <%else  %>
+  <p>
+    <%= link_to "Back to tickets", user_tickets_path %>|
+    <%= link_to "Show this ticket", user_ticket_path(current_user.id,@ticket) %>
+    </p>
+  <%end%>
+</div>
 
 </div>

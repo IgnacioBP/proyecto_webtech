@@ -1,25 +1,43 @@
 <p style="color: green"><%= notice %></p>
-<div class="text-center">
+
+
+
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>Ticket lists</h1>
 </div>
 
+<br>
+
 <div id="ticket_lists">
   <% @ticket_lists.each do |ticket_list| %>
-  
-  <% if ticket_list.user.mail == params[:user_mail]%>
+  <%if User.find(ticket_list.user_id) == current_user  %>
   <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+   <% @user_ticket_list_example= ticket_list  %>
     <%= render ticket_list %>
     <p>
-      <%= link_to "Show this ticket list", user_ticket_list_path(ticket_list.user_mail,ticket_list) %>
+      <%= link_to "Show this ticket list", user_ticket_list_path(current_user.id,ticket_list) %>
     </p>
-    </div>
+  </div>
   <br>
-  <% end %>
+  <%end %>
   
-  <%end%>
- 
+  <% end %>
 </div>
- <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-  <%= link_to "Back to user", user_path(params[:user_mail]) %>
-  <%= link_to "New ticket list", new_user_ticket_list_path %>
+
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+<%if not @user_ticket_list_example.nil?  %>
+  <%= link_to "See All Tickets", user_ticket_list_tickets_path(current_user,@user_ticket_list_example) %>
+  <%end  %>
+
+<%if current_user.User?%>
+    <%var =true %>
+      <%= link_to "New Ticket", new_user_ticket_path(check_location: var) %>
+  <%elsif current_user.Executive?  %>
+    <%var =true %>
+      <%= link_to "New Ticket", new_user_ticket_path(check_location: var) %>
+<%end  %>
+
+<%= link_to "Back to the user", user_path(current_user.id)%>
+<%= link_to "Back to Home Page", "/"%>
 </div>
+

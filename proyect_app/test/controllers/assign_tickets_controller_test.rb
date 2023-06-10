@@ -17,7 +17,7 @@ class AssignTicketsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create assign_ticket" do
     assert_difference("AssignTicket.count") do
-      post assign_tickets_url, params: { assign_ticket: {  } }
+      post assign_tickets_url, params: { assign_ticket: { ticket_id: @assign_ticket.ticket_id, user_id: @assign_ticket.user_id } }
     end
 
     assert_redirected_to assign_ticket_url(AssignTicket.last)
@@ -34,7 +34,7 @@ class AssignTicketsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update assign_ticket" do
-    patch assign_ticket_url(@assign_ticket), params: { assign_ticket: {  } }
+    patch assign_ticket_url(@assign_ticket), params: { assign_ticket: { ticket_id: @assign_ticket.ticket_id, user_id: @assign_ticket.user_id } }
     assert_redirected_to assign_ticket_url(@assign_ticket)
   end
 

@@ -6,15 +6,8 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-User.delete_all
-Executive.delete_all
-Supervisor.delete_all
-Administrator.delete_all
-
-AllUser.delete_all
-
-AssignTicket.delete_all
 TicketList.delete_all
+AssignTicket.delete_all
 
 Comment.delete_all
 Chat.delete_all
@@ -22,21 +15,23 @@ Chat.delete_all
 Tag.delete_all
 TagList.delete_all
 
-Ticket.delete_all
-
-ExecutiveReport.delete_all
 PerformanceReport.delete_all
 
+User.delete_all
 
-u=User.create mail:"aaaaa@gmail.com",name:"Juan",last_name:"Carrera",phone:"12345", password:"hiitsme"
-u1=User.create mail:"use@gmail.com",name:"Carmen",last_name:"Quiroz",phone:"87421", password:"notpassword"
-u2=User.create mail:"example@gmail.com",name:"Angela",last_name:"Garcia",phone:"43872", password:"mimascot"
+Ticket.delete_all
+
+u=User.create email:"aaaaa@gmail.com",name:"Juan",last_name:"Carrera",phone:"12345", password:"hiitsme", profile:0
+u1=User.create email:"use@gmail.com",name:"Carmen",last_name:"Quiroz",phone:"87421", password:"notpassword", profile:0
+u2=User.create email:"example@gmail.com",name:"Angela",last_name:"Garcia",phone:"43872", password:"mimascot", profile:0
 puts "User ready"
-exe=Executive.create mail:"exe@gmail.com",name:"Pedro",last_name:"Valdez",phone:"13245", password:"password"
-exe1=Executive.create mail:"exe1@gmail.com",name:"Daniel",last_name:"Opazo",phone:"51240", password:"clave"
+
+exe=User.create email:"exe@gmail.com",name:"Pedro",last_name:"Valdez",phone:"13245", password:"password", profile:1
+exe1=User.create email:"exe1@gmail.com",name:"Daniel",last_name:"Opazo",phone:"51240", password:"clavesecreta", profile:1
 puts "Executive ready"
-sup=Supervisor.create mail:"sup@gmail.com",name:"Diego",last_name:"Castro",phone:"14325", password:"answer"
-adm=Administrator.create mail:"add@gmail.com",name:"Miguel",last_name:"Perez",phone:"15432", password:"secret"
+
+sup=User.create email:"sup@gmail.com",name:"Diego",last_name:"Castro",phone:"14325", password:"answer", profile:2
+adm=User.create email:"add@gmail.com",name:"Miguel",last_name:"Perez",phone:"15432", password:"secret", profile:3
 puts "Administrator & supervisor ready"
 
 t=Ticket.create [
@@ -56,14 +51,17 @@ tl=TicketList.create [
     {user:u2,ticket:t.last}
 ]
 puts "TicketList ready"
-at=AssignTicket.create [
-    {executive:exe1,ticket:t.first},
-    {executive:exe,ticket:t.second},
-    {executive:exe,ticket:t.third},
-    {executive:exe1,ticket:t.fourth},
-    {executive:exe,ticket:t.last}
-]
+
+
+ at=AssignTicket.create [
+    {user:exe1 ,ticket:t.first},
+    {user:exe ,ticket:t.second},
+    {user:exe ,ticket:t.third},
+    {user:exe1 ,ticket:t.fourth},
+    {user:exe ,ticket:t.last}
+ ]
 puts "AssignTicket ready"
+
 tgl=TagList.create [
     {ticket:t.first},
     {ticket:t.second},
@@ -72,6 +70,7 @@ tgl=TagList.create [
     {ticket:t.last}
 ]
 puts "Taglist ready"
+
 tg=Tag.create [
     {name:"capa 8",tag_list:tgl.first},
     {name:"Not method", tag_list:tgl.second},
@@ -80,6 +79,7 @@ tg=Tag.create [
     {name:"ask error", tag_list:tgl.third}
 ]
 puts "Tags ready"
+
 ch=Chat.create [
     {ticket:t.first},
     {ticket:t.second},
@@ -88,6 +88,7 @@ ch=Chat.create [
     {ticket:t.last}
 ]
 puts "Chat ready"
+
 cm=Comment.create [
     {text:"buen ejemplo de comentario",writer:adm.name + " " + adm.last_name,chat:ch.first},
     {text:"problema para el que sigue", writer:exe1.name + " " + exe1.last_name,chat:ch.second},
@@ -98,17 +99,8 @@ cm=Comment.create [
 puts "Comments ready"
 
 pfr=PerformanceReport.create [
-    {report_date:Time.now,administrator:adm},
-    {report_date:Time.now,supervisor:sup},
-    {report_date:Time.now,administrator:adm}
+    {report_date:Time.now,user:adm},
+    {report_date:Time.now,user:sup},
+    {report_date:Time.now,user:adm}
 ]
 puts "PerformanceReport ready"
-exr=ExecutiveReport.create [
-    {executive:exe,performance_report:pfr.first},
-    {executive:exe,performance_report:pfr.second},
-    {executive:exe1,performance_report:pfr.first},
-    {executive:exe1,performance_report:pfr.third},
-]
-puts "ExecutiveReport ready"
-
-puts "All Complete"

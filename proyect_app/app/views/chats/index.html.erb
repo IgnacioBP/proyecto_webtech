@@ -1,27 +1,61 @@
 <p style="color: green"><%= notice %></p>
-<div class="text-center">
+
+
+<%current_ticket= Ticket.find(params[:ticket_id])%>
+
+
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>Chats</h1>
 </div>
+<br>
+
 <div id="chats">
   <% @chats.each do |chat| %>
-   <% if chat.ticket.id == params[:ticket_id].to_d%>
-   <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+  <%if Ticket.find(chat.ticket_id) == current_ticket  %>
+  <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
     <%= render chat %>
-    <p>
-        <% if params[:executive_mail].present?%>
-          <%= link_to "Show this chat", executive_assign_ticket_ticket_chat_path(params[:executive_mail],params[:assign_ticket_id],chat.ticket,chat)%>
-          <%= link_to "Back to ticket", executive_assign_ticket_ticket_path(params[:executive_mail],params[:assign_ticket_id], chat.ticket)%>
-        <% elsif params[:supervisor_mail].present?%>
-          <%= link_to "Show this chat", supervisor_ticket_chat_path(params[:supervisor_mail],chat.ticket,chat)%>
-          <%= link_to "Back to ticket", supervisor_ticket_path(params[:supervisor_mail],chat.ticket)%>
-        <% elsif params[:administrator_mail].present?%>
-          <%= link_to "Show this chat", administrator_ticket_chat_path(params[:administrator_mail],chat.ticket,chat)%>
-          <%= link_to "Back to ticket", administrator_ticket_path(params[:administrator_mail],chat.ticket)%>
-        <%end%>
-    </p>
+
+   <%if current_user.Executive?  %>
+        <% if params[:ticket_list_id].present?%>
+          <p>
+            <%= link_to "Show this chat", user_ticket_list_ticket_chat_path(current_user,current_ticket.ticket_list,current_ticket,chat) %>
+          </p>
+        <%else  %>
+           <p>
+            <%= link_to "Show this chat", user_assign_ticket_ticket_chat_path(current_user,current_ticket.assign_ticket,current_ticket,chat) %>
+          </p>
+        <%end  %>
+      <%elsif current_user.Supervisor? or current_user.Administrator? %>
+        <p>
+          <%= link_to "Show this chat", user_ticket_chat_path(current_user,current_ticket,chat) %>
+        </p>
+
+      <%end  %>
   </div>
   <br>
-    <%end%>
+  <%end  %>
   <% end %>
 </div>
 
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+
+<%if current_user.Executive?  %>
+  <% if params[:ticket_list_id].present?%>
+  <p>
+    <%= link_to "Back to ticket", user_ticket_list_ticket_path(current_user,current_ticket.ticket_list,current_ticket)%>
+  </p>
+  <%else  %>
+  <p>
+    <%= link_to "Back to ticket", user_assign_ticket_ticket_path(current_user,current_ticket.assign_ticket,current_ticket)%>
+  </p>
+  <%end  %>
+
+<%elsif current_user.Supervisor? or current_user.Administrator? %>
+  <p>
+    <%= link_to "Back to ticket", user_ticket_path(current_user,current_ticket)%>
+  </p>
+<%end  %>
+
+<%= link_to "Back to Home Page", "/"%>
+
+</div>

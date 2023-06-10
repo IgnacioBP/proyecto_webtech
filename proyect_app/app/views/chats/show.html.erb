@@ -1,24 +1,28 @@
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <p style="color: green"><%= notice %></p>
 
-<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <%= render @chat %>
 
 <div>
+  <%current_user= User.find(params[:user_id])%>
+  <%current_ticket= Ticket.find(params[:ticket_id])%>
 
-  <p>
-    <% if params[:executive_mail].present?%>
-        <%= link_to "Back to chats", executive_assign_ticket_ticket_chats_path %>
-        <%= link_to "Check Comments", executive_assign_ticket_ticket_chat_comments_path(params[:executive_mail],params[:assign_ticket_id],@chat.ticket,@chat) %>  
-    <% elsif params[:supervisor_mail].present?%>
-      <%= link_to "Back to chats", supervisor_ticket_chats_path %>
-      <%= link_to "Check Comments", supervisor_ticket_chat_comments_path(params[:supervisor_mail],@chat.ticket,@chat) %>  
-    <% elsif params[:administrator_mail].present?%>
-      <%= link_to "Back to chats",administrator_ticket_chats_path %>
-      <%= link_to "Check Comments", administrator_ticket_chat_comments_path(params[:administrator_mail],@chat.ticket,@chat) %>  
-    <%end%>
-  </p>
+  <%if current_user.Executive?  %>
+        <% if params[:assign_ticket_id].present?%>
+           <p>
+            <%= link_to "Check comments", user_assign_ticket_ticket_chat_comments_path(current_user,current_ticket.assign_ticket,current_ticket,@chat) %> |
+            <%= link_to "Back to chats", user_assign_ticket_ticket_chats_path(current_user,params[:assign_ticket_id],current_ticket) %>            
+            <%= button_to "Destroy this chat", user_assign_ticket_ticket_chat_path(current_user,current_ticket.assign_ticket,current_ticket,@chat), method: :delete %>
+          </p>
+        <%end  %>
+      <%elsif current_user.Supervisor? or current_user.Administrator? %>
+        <p>
+            <%= link_to "Check comments", user_ticket_chat_comments_path(current_user,current_ticket,@chat) %> |
+            <%= link_to "Back to chats",  user_ticket_chats_path(current_user,current_ticket) %>   
+            <%= button_to "Destroy this chat", user_ticket_chat_path(current_user,current_ticket,@chat), method: :delete %>         
+        </p>
 
-
+      <%end  %>
 
   
 </div>

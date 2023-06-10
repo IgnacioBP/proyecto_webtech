@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ProyectApp</title>
+    <title>WebtechApp</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -12,7 +12,24 @@
 
   <body>
   <div class="bg-image" style="background-image: url('https://i.pinimg.com/originals/c2/41/3b/c2413b33840fb46ca118fe3bb8c32cbf.jpg');">
-    <%= render 'layouts/navbar' %>
+    
+    <% if user_signed_in? %>
+      <%= render 'layouts/navbar' %>
+    <%end  %>
+
+    <br>
+   <% flash.each do |type, msg| %>
+      <% if type == "notice" %>
+        <div class="alert alert-success text-black text-center">
+      <% elsif type == "alert" %>
+        <div class="alert alert-danger text-black text-center">
+      <% else %>
+        <div class='alert alert-<%= "#{type}" %> text-black text-center'>
+      <% end %>
+      <h2><%= msg %></h2>
+      </div>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>

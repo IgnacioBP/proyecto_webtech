@@ -1,13 +1,16 @@
-<p style="color: green"><%= notice %></p>
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+<p style="color: green"><%= notice %></p>
+
+
+
 <%= render @assign_ticket %>
 
 <div>
-  <%= link_to "Edit this assign ticket",  edit_executive_assign_ticket_path(@assign_ticket.executive_mail,@assign_ticket) %> |
-  <%= link_to "See Tickets ", executive_assign_ticket_tickets_path(@assign_ticket.executive_mail, @assign_ticket) %>|
-  <%= link_to "Back to assign tickets",  executive_assign_tickets_path %>
+  <%= link_to "Edit this assign ticket", edit_user_assign_ticket_path(current_user,@assign_ticket) %> |
+  <%= link_to "See Ticket info", user_assign_ticket_ticket_path(current_user,@assign_ticket, @assign_ticket.ticket) %>|
+  <%= link_to "Back to assign tickets", user_assign_tickets_path(current_user) %>
 
-  <%= button_to "Destroy this assign ticket",executive_assign_ticket_path(@assign_ticket) , method: :delete %>
+  <%= button_to "Destroy this assign ticket", user_assign_tickets_path(current_user), method: :delete %>
 </div>
 
 </div>

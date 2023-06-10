@@ -1,6 +1,6 @@
 class ChatsController < ApplicationController
   before_action :set_chat, only: %i[ show edit update destroy ]
-
+  before_action :authenticate_user!
   # GET /chats or /chats.json
   def index
     @chats = Chat.all
@@ -8,15 +8,37 @@ class ChatsController < ApplicationController
 
   # GET /chats/1 or /chats/1.json
   def show
+    session[:current_chat_id] = @chat.id
   end
 
   # GET /chats/new
   def new
-    @chat = Chat.new
+    @current_ticket= Ticket.find(params[:ticket_id])
+    if current_user.Executive? 
+      if params[:ticket_list_id].present?
+        redirect_to user_ticket_list_ticket_chats_path(current_user,@current_ticket.ticket_list,@current_ticket) 
+      elsif params[:assign_ticket_id].present?
+        redirect_to user_assign_ticket_ticket_chats_path(current_user,@current_ticket.assign_ticket,@current_ticket) 
+      end  
+    elsif current_user.Supervisor? or current_user.Administrator?
+      redirect_to user_ticket_chats_path(current_user,@current_ticket)
+
+    end 
   end
 
   # GET /chats/1/edit
   def edit
+    @current_ticket= Ticket.find(params[:ticket_id])
+    if current_user.Executive? 
+      if params[:ticket_list_id].present?
+        redirect_to user_ticket_list_ticket_chat_path(current_user,@current_ticket.ticket_list,@current_ticket,@chat) 
+      elsif params[:assign_ticket_id].present?
+        redirect_to user_assign_ticket_ticket_chat_path(current_user,@current_ticket.assign_ticket,@current_ticket,@chat) 
+      end  
+    elsif current_user.Supervisor? or current_user.Administrator?
+      redirect_to user_ticket_chat_path(current_user,@current_ticket,@chat)
+
+    end 
   end
 
   # POST /chats or /chats.json
@@ -49,11 +71,20 @@ class ChatsController < ApplicationController
 
   # DELETE /chats/1 or /chats/1.json
   def destroy
-    @chat.destroy
+    if current_user.Supervisor? or current_user.Administrator?
+      @chat.comments.destroy_all
 
-    respond_to do |format|
-      format.html { redirect_to chats_url, notice: "Chat was successfully destroyed." }
-      format.json { head :no_content }
+      @current_ticket= Ticket.find(params[:ticket_id])
+      if current_user.Executive? 
+        if params[:ticket_list_id].present?
+          redirect_to user_ticket_list_ticket_chat_path(current_user,@current_ticket.ticket_list,@current_ticket,@chat) , notice: "Chat was successfully clean."
+        elsif params[:assign_ticket_id].present?
+          redirect_to user_assign_ticket_ticket_chat_path(current_user,@current_ticket.assign_ticket,@current_ticket,@chat), notice: "Chat was successfully clean." 
+        end  
+      elsif current_user.Supervisor? or current_user.Administrator?
+        redirect_to user_ticket_chat_path(current_user,@current_ticket,@chat), notice: "Chat was successfully clean."
+
+      end 
     end
   end
 
@@ -65,6 +96,6 @@ class ChatsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def chat_params
-      params.fetch(:chat).permit(:ticket_id)
+      params.require(:chat).permit(:ticket_id)
     end
 end

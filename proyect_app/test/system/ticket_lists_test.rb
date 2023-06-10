@@ -14,6 +14,8 @@ class TicketListsTest < ApplicationSystemTestCase
     visit ticket_lists_url
     click_on "New ticket list"
 
+    fill_in "Ticket", with: @ticket_list.ticket_id
+    fill_in "User", with: @ticket_list.user_id
     click_on "Create Ticket list"
 
     assert_text "Ticket list was successfully created"
@@ -24,6 +26,8 @@ class TicketListsTest < ApplicationSystemTestCase
     visit ticket_list_url(@ticket_list)
     click_on "Edit this ticket list", match: :first
 
+    fill_in "Ticket", with: @ticket_list.ticket_id
+    fill_in "User", with: @ticket_list.user_id
     click_on "Update Ticket list"
 
     assert_text "Ticket list was successfully updated"

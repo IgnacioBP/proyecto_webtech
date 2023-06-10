@@ -1,3 +1,4 @@
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>New ticket</h1>
 
 <%= render "form", ticket: @ticket %>
@@ -5,14 +6,33 @@
 <br>
 
 <div>
+  <%if current_user.User? %>
+    <% if params[:ticket_list_id].present?%>
+    <p>
+      <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
+      </p>
+    <%else  %>
+      <p>
+      <%= link_to "Back to ticket list", user_ticket_lists_path %>
+      </p>
+    <%end  %>
+  <%elsif current_user.Executive?  %>
+    <p>
+    <% if params[:ticket_list_id].present?%>
+      <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
+    <%elsif params[:assign_ticket_id].present?  %>
+      <%= link_to "Back to tickets", user_assign_ticket_tickets_path %>
 
-  <% if params[:user_mail].present?%>
-   <%= link_to "Back to tickets", user_ticket_list_tickets_path %>
-  <% elsif params[:executive_mail].present?%>
-   <%= link_to "Back to tickets", executive_assign_ticket_tickets_path %>
- <% elsif params[:supervisor_mail].present?%>
-   <%= link_to "Back to tickets", supervisor_tickets_path %>
- <% elsif params[:administrator_mail].present?%>
-   <%= link_to "Back to tickets", administrator_tickets_path %>
- <%end%>
+    <%else  %>
+      <p>
+        <%= link_to "Back to tickets", user_tickets_path(current_user) %>
+        </p>
+    <%end  %>
+      </p>
+  <%else  %>
+  <p>
+    <%= link_to "Back to tickets", user_tickets_path %>
+    </p>
+  <%end%>
+</div>
 </div>

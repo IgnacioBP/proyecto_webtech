@@ -17,7 +17,7 @@ class PerformanceReportsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create performance_report" do
     assert_difference("PerformanceReport.count") do
-      post performance_reports_url, params: { performance_report: { report_date: @performance_report.report_date } }
+      post performance_reports_url, params: { performance_report: { report_date: @performance_report.report_date, user_id: @performance_report.user_id } }
     end
 
     assert_redirected_to performance_report_url(PerformanceReport.last)
@@ -34,7 +34,7 @@ class PerformanceReportsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update performance_report" do
-    patch performance_report_url(@performance_report), params: { performance_report: { report_date: @performance_report.report_date } }
+    patch performance_report_url(@performance_report), params: { performance_report: { report_date: @performance_report.report_date, user_id: @performance_report.user_id } }
     assert_redirected_to performance_report_url(@performance_report)
   end
 

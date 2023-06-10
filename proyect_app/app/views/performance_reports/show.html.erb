@@ -1,23 +1,20 @@
 <p style="color: green"><%= notice %></p>
+
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+
 <%= render @performance_report %>
 
 <div>
+  <%current_user= User.find(params[:user_id])%>
+  <%if  current_user.Supervisor?  or current_user.Administrator?  %>
+      <%= link_to "Edit this performance report", edit_user_performance_report_path(current_user.id,@performance_report) %> |
+      <%= link_to "Back to performance reports", user_performance_reports_path %>
+    </p>
+    
+  <%end  %>
 
-  <p>
-  
-  
-    <% if params[:administrator_mail].present?%>
-      <%= link_to "Check the executive reports", administrator_performance_report_executive_reports_path(params[:administrator_mail],@performance_report) %> |
-      <%= link_to "Edit this performance report", edit_administrator_performance_report_path(params[:administrator_mail],@performance_report) %> |
-      <%= link_to "Back to performance reports", administrator_performance_reports_path %> 
-    <% elsif params[:supervisor_mail].present?%>
-      <%= link_to "Check the executive reports", supervisor_performance_report_executive_reports_path(params[:supervisor_mail],@performance_report) %> |
-      <%= link_to "Edit this performance report", edit_supervisor_performance_report_path(params[:supervisor_mail],@performance_report) %> |
-      <%= link_to "Back to performance reports", supervisor_performance_reports_path %>
-    <%end%>
-      
-</p>
   <%= button_to "Destroy this performance report", @performance_report, method: :delete %>
 </div>
+
+
 </div>

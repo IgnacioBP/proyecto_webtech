@@ -1,66 +1,197 @@
 <p style="color: green"><%= notice %></p>
-<div class="text-center">
-<h1>Tickets</h1>
+
+
+
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+  <h1>Tickets</h1>
 </div>
+
+<br>
+
+
+<div class="card mx-auto p-3 bg-white text-black text-center"style="width: 40rem;">
+  <h5>Here will be display all the tickets you have made or have access to</h5>
+</div>
+<br>
+
+<div class="card text-black text-center" style="width: 30rem; font-size: 15px; background-color: #A0F5FF; margin: 0 auto;">
+  <h5>Want to check an especific ticket??</h5>
+  <a class="input-group m-1">
+    <input class="form-control me-2" type="search" id="searchbar" placeholder="Search" aria-label="Search">
+  </a>
+  </div>
+  <br>
+  <div class="dropdown-menu " id="results-menu" aria-labelledby="navbarDropdown" style="width: 40rem; position: relative;
+  left: 50%; top: 100%; transform: translate(-50%, -0%);">
+    <div class="mx-auto p-3"id="results"></div>
+  </div>
+
 
 <div id="tickets">
   <% @tickets.each do |ticket| %>
-  
-     <% if params[:user_mail].present?%>
-     
-      <% if ticket.user.mail==params[:user_mail]%>
-      <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-        <%= render ticket %>
-        <%= link_to "Show this ticket", user_ticket_list_ticket_path(params[:user_mail],ticket.ticket_list,ticket) %>
-       </div>
-      <br>
-      <%end%>
-     
-    <% elsif params[:executive_mail].present?%>
-    
-      <% if ticket.executive.mail==params[:executive_mail]%>
-      <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-        <%= render ticket %>
-        <%= link_to "Show this ticket", executive_assign_ticket_ticket_path(params[:executive_mail],ticket.assign_ticket,ticket) %>
-      </div>
-    <br>
-    <%end%>
-    
-    <%else%>
-    <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-      <%= render ticket %>
-       <% if params[:supervisor_mail].present?%>
-        <%= link_to "Show this ticket", supervisor_ticket_path(params[:supervisor_mail],ticket) %>
-      <% elsif params[:administrator_mail].present?%>
-          <%= link_to "Show this ticket", administrator_ticket_path(params[:administrator_mail],ticket) %>
-      <%end%>
-      </div>
-      <br>
-    <%end%>
 
-    
-    
+      <%if not current_user.nil?%>
+
+        <%if current_user.User? %>
+          <%if params[:ticket_list_id].present?%>
+            <%if ticket.ticket_list.user==current_user%>
+            <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+              <%= render ticket %>
+              <p>
+              <%= link_to "Show this ticket", user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],ticket) %>
+              </p>
+              </div>
+            <%end  %>
+          <%else  %>
+            <%if ticket.ticket_list.user==current_user%>
+              <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+                <%= render ticket %>
+              </div>
+              <%end  %>
+          <%end  %>
+        
+          
+        <%elsif current_user.Executive?  %>
+
+          <% if params[:ticket_list_id].present?%>
+            <% if ticket.ticket_list.user==current_user%>
+              <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+              <%= render ticket %>
+              <p>
+              <%= link_to "Show this ticket", user_ticket_list_ticket_path(current_user.id,params[:ticket_list_id],ticket) %>
+              </p>
+              </div>
+            <%end  %>
+
+          <%elsif params[:assign_ticket_id].present?  %>
+            <%if not ticket.assign_ticket.nil?  %>
+              <% if ticket.assign_ticket.user==current_user%>
+                <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+                <%= render ticket %>
+                <p>
+                <%= link_to "Show this ticket", user_assign_ticket_ticket_path(current_user.id,params[:assign_ticket_id],ticket) %>
+                </p>
+                </div>
+              <%end  %>
+            <%end  %>
+          <%else  %>
+              <%if not ticket.assign_ticket.nil?  %>
+                <% if ticket.assign_ticket.user==current_user or ticket.ticket_list.user==current_user%>
+                  <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+                    <%= render ticket %>
+                  </div>
+                <%end  %>
+              <%else  %>
+                <% if ticket.ticket_list.user==current_user%>
+                  <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+                    <%= render ticket %>
+                  </div>
+                <%end  %>
+              <%end  %>
+          <%end  %>
+
+        <%elsif  current_user.Supervisor?  or current_user.Administrator?%>
+          <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+            <%= render ticket %>
+            <p>
+            <%= link_to "Show this ticket", user_ticket_path(current_user,ticket) %>
+            </p>
+          </div>
+        <%else  %>
+          <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+            <%= render ticket %>
+          </div>
+        <%end  %>
+      <%end  %>
+
+
+    <br>
+
   <% end %>
 </div>
+
+
+
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-<% if params[:user_mail].present?%>
-  <%= link_to "New ticket", new_user_ticket_list_ticket_path(params[:user_mail],params[:ticket_list_id]) %>
-  <br>
-  <%= link_to "Back to Ticket List", user_ticket_list_path(params[:user_mail],params[:ticket_list_id])%>
-<% elsif params[:executive_mail].present?%>
-  <%= link_to "New ticket", new_executive_assign_ticket_ticket_path(params[:executive_mail],params[:assign_ticket_id]) %>
-  <br>
-  <%= link_to "Back to Assign Ticket", executive_assign_ticket_path(params[:executive_mail],params[:assign_ticket_id])%>
-<% elsif params[:supervisor_mail].present?%>
-  <%= link_to "New ticket", new_supervisor_ticket_path(params[:supervisor_mail]) %>
-  <br>
-  <%= link_to "Back to Supervisor", supervisor_path(params[:supervisor_mail])%>
-<% elsif params[:administrator_mail].present?%>
-    <%= link_to "New ticket", new_administrator_ticket_path(params[:administrator_mail]) %>
-    <br>
-    <%= link_to "Back to Administrator", administrator_path(params[:administrator_mail])%>
-<%else%>
-  <%= link_to "Back to Home Page", "/"%>
+<%if not current_user.nil?%>
+  <%if current_user.User? and params[:ticket_list_id].present? %>
+    <p>
+      <%= link_to "Back to Ticket List", user_ticket_list_path(current_user.id,params[:ticket_list_id])%>
+    </p>
+  <%elsif current_user.Executive?  %>
+    <p>
+      <% if params[:ticket_list_id].present?%>
+        <%= link_to "Back to Ticket List", user_ticket_list_path(current_user.id,params[:ticket_list_id])%>
+      <%elsif params[:assign_ticket_id].present?  %>
+        <%= link_to "Back to Assign Ticket", user_assign_ticket_path(current_user.id,params[:assign_ticket_id])%>
+
+      <%end %>
+    </p>
+  <%elsif  current_user.Supervisor?  or current_user.Administrator?%>
+    <p>
+      <%= link_to "Back to the user", user_path(current_user.id)%>
+    </p>
+
+  <%end  %>
 <%end%>
+  <%= link_to "Back to Home Page", "/"%>
 </div>
 
+
+
+
+<script>
+  document.addEventListener('turbo:load', () =>{
+  // Cerrar el dropdown cuando se hace clic fuera del input o del dropdown
+  document.addEventListener('click', function(event) {
+    document.getElementById('results-menu').classList.remove('show');
+  });
+  
+  document.getElementById('searchbar').addEventListener('keyup', event => {
+    inputbar = document.getElementById('searchbar').value;
+    result = document.getElementById('results');
+    //console.log(inputbar)
+    if (inputbar === "") {
+      document.getElementById('results-menu').classList.remove('show');
+    }
+    else {
+      fetch('/tickets/search?query='+inputbar)
+      .then(response => response.text())
+      .then(html => {
+        // Analizar el HTML obtenido
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        // Obtener el elemento <div> con el nombre "datos"
+        const datosDiv = doc.querySelector('div#datos');
+        
+        if (datosDiv) {
+          document.getElementById('results-menu').classList.add('show');
+          if (datosDiv.innerHTML.trim() === '') {
+            // El div "datos" está vacío
+            // Realiza la acción deseada aquí
+            result.innerHTML = '<li><span class="dropdown-item-text">Not Found</span></li>';
+          } else {
+            // El div "datos" contiene contenido
+            
+            result.innerHTML = datosDiv.innerHTML
+
+            //Change the color of the links
+            links=document.getElementsByClassName("nav-link dropdown-item");
+            for (var i = 0, len = links.length; i < len; i++) {
+                links[i].style.color = "#000000 ";
+            }
+            
+          }
+        } else {
+          console.log('No se encontró el div con el nombre "datos"');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  });
+});
+
+</script>

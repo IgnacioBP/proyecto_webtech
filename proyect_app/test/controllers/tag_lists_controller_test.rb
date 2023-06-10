@@ -17,7 +17,7 @@ class TagListsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create tag_list" do
     assert_difference("TagList.count") do
-      post tag_lists_url, params: { tag_list: {  } }
+      post tag_lists_url, params: { tag_list: { ticket_id: @tag_list.ticket_id } }
     end
 
     assert_redirected_to tag_list_url(TagList.last)
@@ -34,7 +34,7 @@ class TagListsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update tag_list" do
-    patch tag_list_url(@tag_list), params: { tag_list: {  } }
+    patch tag_list_url(@tag_list), params: { tag_list: { ticket_id: @tag_list.ticket_id } }
     assert_redirected_to tag_list_url(@tag_list)
   end
 

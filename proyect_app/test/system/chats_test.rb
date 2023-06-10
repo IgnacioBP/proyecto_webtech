@@ -14,6 +14,7 @@ class ChatsTest < ApplicationSystemTestCase
     visit chats_url
     click_on "New chat"
 
+    fill_in "Ticket", with: @chat.ticket_id
     click_on "Create Chat"
 
     assert_text "Chat was successfully created"
@@ -24,6 +25,7 @@ class ChatsTest < ApplicationSystemTestCase
     visit chat_url(@chat)
     click_on "Edit this chat", match: :first
 
+    fill_in "Ticket", with: @chat.ticket_id
     click_on "Update Chat"
 
     assert_text "Chat was successfully updated"

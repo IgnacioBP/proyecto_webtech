@@ -1,5 +1,4 @@
 class TicketList < ApplicationRecord
-
-    belongs_to :user, foreign_key: "user_mail"
-    belongs_to :ticket
+  belongs_to :user
+  belongs_to :ticket
 end

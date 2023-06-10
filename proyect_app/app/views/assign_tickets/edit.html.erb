@@ -1,3 +1,7 @@
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+
+
+
 <h1>Editing assign ticket</h1>
 
 <%= render "form", assign_ticket: @assign_ticket %>
@@ -5,6 +9,8 @@
 <br>
 
 <div>
-  <%= link_to "Show this assign ticket",  executive_assign_ticket_path(@assign_ticket.executive_mail,@assign_ticket) %> |
-  <%= link_to "Back to assign tickets",  executive_assign_tickets_path %>
+  <%= link_to "Show this assign ticket", user_assign_ticket_path(current_user.id,@assign_ticket) %> |
+  <%= link_to "Back to assign tickets", user_assign_tickets_path %>
+</div>
+
 </div>

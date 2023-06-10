@@ -1,17 +1,16 @@
 <div id="<%= dom_id tag_list %>">
-
-    <p>
+  <p>
     <strong>Ticket:</strong>
-    <%= Ticket.find(tag_list.ticket_id).title %>
+    <%= tag_list.ticket_id %>
   </p>
+
   <p>
     <strong>Tags:</strong>
-    <% tag_list.tags.each do |t|%>
-    #<%= t.name%> 
-    <%end%>
+    <% tag_list.tags.each do |t| %>
+    <ul>
+      <li><%= t.name %></li>
+    </ul>
+    <%end %>
   </p>
-
-
-
 
 </div>

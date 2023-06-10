@@ -1,41 +1,68 @@
 <p style="color: green"><%= notice %></p>
-<div class="text-center">
+
+<%current_user= User.find(params[:user_id])%>
+<%current_ticket= Ticket.find(params[:ticket_id])%>
+<%current_taglist= TagList.find(params[:tag_list_id])%>
+
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <h1>Tags</h1>
 </div>
+<br>
 <div id="tags">
   <% @tags.each do |tag| %>
-    <% if tag.tag_list.id == params[:tag_list_id].to_d%>
-    <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-      <%= render tag %>
-      <p>
-        <% if params[:executive_mail].present?%>
-          <%= link_to "Show this tag", executive_assign_ticket_ticket_tag_list_tag_path(params[:executive_mail],params[:assign_ticket_id],params[:ticket_id],tag.tag_list, tag)%>
-        <% elsif params[:supervisor_mail].present?%>
-          <%= link_to "Show this tag", supervisor_ticket_tag_list_tag_path(params[:supervisor_mail],params[:ticket_id],tag.tag_list, tag)%>
-        <% elsif params[:administrator_mail].present?%>
-          <%= link_to "Show this tag", administrator_ticket_tag_list_tag_path(params[:administrator_mail],params[:ticket_id],tag.tag_list, tag)%>
-          <%end%>
+    <%if TagList.find(tag.tag_list_id) == current_taglist  %>
+      <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+        <%= render tag %>
 
-      </p>
+
+        
+      <%if current_user.Executive?  %>
+        <% if params[:ticket_list_id].present?%>
+          <p>
+            <%= link_to "Show this tag ", user_ticket_list_ticket_tag_list_tag_path(current_user,current_ticket.ticket_list,current_ticket,current_taglist,tag) %>
+          </p>
+        <%else  %>
+           <p>
+            <%= link_to "Show this tag ", user_assign_ticket_ticket_tag_list_tag_path(current_user,current_ticket.assign_ticket,current_ticket,current_taglist,tag) %>
+          </p>
+        <%end  %>
+      <%elsif current_user.Supervisor? or current_user.Administrator? %>
+        <p>
+          <%= link_to "Show this tag ", user_ticket_tag_list_tag_path(current_user,current_ticket,current_taglist,tag) %>
+        </p>
+
+      <%end  %>
+
+
       </div>
       <br>
-    <%end%>
+    <%end  %>
   <% end %>
 </div>
 
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-<% if params[:executive_mail].present?%>
-        <%= link_to "Back to tag list", executive_assign_ticket_ticket_tag_list_path(params[:executive_mail],params[:assign_ticket_id],params[:ticket_id], params[:tag_list_id])%>
-        <br>
-      <%= link_to "New tag", new_executive_assign_ticket_ticket_tag_list_tag_path(params[:executive_mail],params[:assign_ticket_id],params[:ticket_id], params[:tag_list_id]) %>
-<% elsif params[:supervisor_mail].present?%>
-        <%= link_to "Back to tag list", supervisor_ticket_tag_list_path(params[:supervisor_mail],params[:ticket_id], params[:tag_list_id])%>
-        <br>
-        <%= link_to "New tag", new_supervisor_ticket_tag_list_tag_path(params[:supervisor_mail],params[:ticket_id], params[:tag_list_id]) %>
-<% elsif params[:administrator_mail].present?%>
-        <%= link_to "Back to tag list", administrator_ticket_tag_list_path(params[:administrator_mail],params[:ticket_id],params[:tag_list_id])%>
-        <br>
-        <%= link_to "New tag", new_administrator_ticket_tag_list_tag_path(params[:administrator_mail],params[:ticket_id],params[:tag_list_id]) %>
-<%end%>
+
+
+<%if current_user.Executive?  %>
+  <% if params[:ticket_list_id].present?%>
+  <p>
+    <%= link_to "New tag ", new_user_ticket_list_ticket_tag_list_tag_path %>|
+    <%= link_to "Back to tag list", user_ticket_list_ticket_tag_list_path(current_user,current_ticket.ticket_list,current_ticket,current_taglist)%>
+  </p>
+  <%else  %>
+  <p>
+    <%= link_to "New tag ", new_user_assign_ticket_ticket_tag_list_tag_path %>|
+    <%= link_to "Back to tag list", user_assign_ticket_ticket_tag_list_path(current_user,current_ticket.assign_ticket,current_ticket,current_taglist)%>
+  </p>
+  <%end  %>
+
+<%elsif current_user.Supervisor? or current_user.Administrator? %>
+  <p>
+    <%= link_to "New tag", new_user_ticket_tag_list_tag_path %>|
+    <%= link_to "Back to tag list", user_ticket_tag_list_path(current_user,current_ticket,current_taglist)%>
+  </p>
+<%end  %>
+
+<%= link_to "Back to Home Page", "/"%>
 
 </div>

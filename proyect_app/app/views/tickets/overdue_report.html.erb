@@ -1,9 +1,11 @@
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 Overdue Report
+</div>
+<br>
 
+
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
 <p>
-    <% if params[:administrator_mail].present?%>
-        <%= link_to "Back to the administrator", administrator_path(params[:administrator_mail]) %>
-    <% elsif params[:supervisor_mail].present?%>
-        <%= link_to "Back to the supervisor", supervisor_path(params[:supervisor_mail]) %>
-    <%end%>
+    <%= link_to "Back to the user", user_path(params[:user_id]) %>
 </p>
+</div>

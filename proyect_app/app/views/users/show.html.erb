@@ -3,10 +3,31 @@
 <%= render @user %>
 
 <div>
-  <%= link_to "Edit this user", edit_user_path(@user) %> |
-  <%= link_to "Users Ticket Lists ", user_ticket_lists_path(@user) %>|
-  <%= link_to "Back to users", users_path %>
+  
+  <%if @user.User? %>
+  <p>
+    <%= link_to "Users Ticket Lists ", user_ticket_lists_path(@user) %>
+    </p>
+  <%elsif @user.Executive?  %>
+  <p>
+    <%= link_to "Users Ticket Lists ", user_ticket_lists_path(@user) %>|
+    <%= link_to "Users Assign Ticket ", user_assign_tickets_path(@user) %>
+    </p>
+  <%else  %>
+  <p>
+    <%= link_to "See Ticket Report", user_ticket_report_path(@user)%> |
+    <%= link_to "See Overdue Report", user_overdue_report_path(@user)%> |
+    <%= link_to "See Performance Report", user_performance_reports_path(@user) %>|
+    <%= link_to "See all Tickets", user_tickets_path(@user) %>
+    </p>
+    
+  <%end  %>
+  <%if current_user==@user %>
+    <%= link_to "Edit this user", edit_user_registration_path() %> 
+  <%end  %>
+  
 
+  <%# Fix o modify the destroy %>
   <%= button_to "Destroy this user", @user, method: :delete %>
 </div>
 

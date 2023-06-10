@@ -1,9 +1,10 @@
 class TicketListsController < ApplicationController
   before_action :set_ticket_list, only: %i[ show edit update destroy ]
-
+  before_action :authenticate_user!
   # GET /ticket_lists or /ticket_lists.json
   def index
     @ticket_lists = TicketList.all
+    session[:assign] = "no"
   end
 
   # GET /ticket_lists/1 or /ticket_lists/1.json
@@ -12,7 +13,8 @@ class TicketListsController < ApplicationController
 
   # GET /ticket_lists/new
   def new
-    @ticket_list = TicketList.new
+    redirect_to user_ticket_lists_path, alert: "You can't create Ticket List this way, you should make a 'new Ticket' for that"
+
   end
 
   # GET /ticket_lists/1/edit
@@ -65,6 +67,6 @@ class TicketListsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def ticket_list_params
-      params.fetch(:ticket_list, {})
+      params.require(:ticket_list).permit(:user_id, :ticket_id)
     end
 end
