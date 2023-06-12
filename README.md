@@ -67,8 +67,6 @@ For the next installments of the proyect , we will implement:
 
     -Associate an account with a google email
 
-    -Implement 'automatic creation' of TicketList when creating a user, AssignTicket when creating a executive, TagList when creating a Ticket and Chat when creating a Ticket.
-
     -Implement methods to manege correctly this 'automatic creation' objects
 
     -All reports methods needed to create a report
