@@ -12,15 +12,14 @@ class UsersController < ApplicationController
 
   # GET /users/1 or /users/1.json
   def show
+    if current_user.Supervisor? and @user.profile=="Administrator"
+      redirect_to users_url, alert: "You can see or edit the administrator personal information"
+    end
   end
 
   # GET /users/new
   def new
-    if current_user.Supervisor? or current_user.Administrator?
-      @user = User.new
-    else
-      redirect_to user_url(current_user)
-    end
+      redirect_to user_url(current_user), alert:"You can't register other people, they should register by they own"
   end
 
   # GET /users/1/edit

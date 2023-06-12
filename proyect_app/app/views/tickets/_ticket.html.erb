@@ -23,7 +23,7 @@
   <p>
     <strong>Creation date:</strong>
     <p>
-    <%= ticket.creation_date %>
+    <%= ticket.creation_date.strftime("%e/%m/%Y") %>
     </p>
   </p>
 
@@ -45,9 +45,15 @@
 <%if (current_user.Supervisor? or current_user.Administrator?) or (not current_user.User? and current_user!=ticket.ticket_list.user) %>
   <p>
     <strong>Resolution date:</strong>
-    <p>
-    <%= ticket.resolution_date %>
-    </p>
+    <%if ticket.resolution_date.to_date!=ticket.creation_date.to_date  %>
+      <p>
+      <%= ticket.resolution_date.strftime("%e/%m/%Y") %>
+      </p>
+    <%else  %>
+      <p>
+        In Progress
+      </p>
+    <%end  %>
   </p>
 
   <p>
@@ -85,15 +91,25 @@
   <p>
     <strong>Response to user:</strong>
     <p>
-    <%= ticket.response_to_user %>
+    <%if ticket.response_to_user.empty?%>
+      Currently Empty
+    <%else  %>
+      <%= ticket.response_to_user %>
+    <%end  %>
     </p>
   </p>
 
     <p>
     <strong>Response to user date:</strong>
-    <p>
-    <%= ticket.response_to_user_date %>
-    </p>
+    <%if ticket.response_to_user_date.to_date!=ticket.creation_date.to_date  %>
+      <p>
+      <%= ticket.response_to_user_date.strftime("%e/%m/%Y") %>
+      </p>
+    <%else  %>
+      <p>
+        In Progress
+      </p>
+    <%end  %>
   </p>
 
   <p>
@@ -106,7 +122,11 @@
   <p>
     <strong>Star number:</strong>
     <p>
-    <%= ticket.star_number %>
+    <%if ticket.star_number == 6 %>
+      Not rated yet
+    <%else  %>
+      <%= ticket.star_number %>
+    <%end  %>
     </p>
   </p>
 
@@ -115,21 +135,28 @@
 
 <%if (current_user.Supervisor? or current_user.Administrator?) or (not current_user.User? and current_user!=ticket.ticket_list.user) %>
 
-  <p>
-    <strong>Limit time response:</strong>
+    <%if ticket.limit_time_response.to_date!=ticket.creation_date.to_date  %>
     <p>
-    <%= ticket.limit_time_response %>
+      <strong>Limit time response:</strong>
+        <p>
+        <%= ticket.limit_time_response.strftime("%e/%m/%Y") %>
+        </p>
     </p>
-  </p>
+    <%end  %>
 
-  <p>
-    <strong>Limit time resolution:</strong>
+   
+    <%if ticket.limit_time_response.to_date!=ticket.creation_date.to_date  %>
     <p>
-    <%= ticket.limit_time_resolution %>
+     <strong>Limit time resolution:</strong>
+      <p>
+      <%= ticket.limit_time_resolution.strftime("%e/%m/%Y") %>
+      </p>
     </p>
-  </p>
+    <%end  %>
 
 <%end  %>
+
+
   <p>
     <strong>Attached Files:</strong>
     <%if ticket.files.empty? %>
@@ -143,4 +170,41 @@
     <%end %>
   </p>
 
+
+<%if ((current_user.Executive? and ticket.ticket_list.user!=current_user )or current_user.Supervisor? or current_user.Administrator?) %>
+  
+  <div class="card mx-auto w-75 text-black text-center"style=" background-color: #E1F5A1">
+    <p>
+      <strong>Comments:</strong>
+      <%if ticket.comments.empty? %>
+        <p>
+          <div class="card mx-auto  text-black text-center mt-2 bg-white">
+            <%= "📥  "+"There are no comments yet"+"  📤" %>
+          </div>
+        </p>
+      <%else  %>
+        <p>
+        <%= render partial:"comment", collection: ticket.comments%>
+        </p>
+      <%end %>
+    </p>
+  </div>
+
+
+  <div class="card mx-auto w-50 text-black text-center mt-2"style=" background-color: #FE7C76">
+    <p>
+      <strong>Tags:</strong>
+      <%if ticket.tags.empty? %>
+        <p>
+          <div class="card mx-auto  text-black text-center mt-2 bg-white">
+            <%= "⚡  "+"There are no tags assign yet "+"  ⚡" %>
+          </div>
+        </p>
+      <%else  %>
+        <%= render partial:"tag", collection: ticket.tag_listing%>
+      <%end %>
+    </p>
+  </div>
+
+<%end  %>
 </div>

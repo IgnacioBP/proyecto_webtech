@@ -13,9 +13,12 @@ class AssignTicketsController < ApplicationController
 
   # GET /assign_tickets/new
   def new
-
-    if current_user.Executive? or current_user.User? 
-      redirect_to user_tickets_path(current_user), alert: "You can't created assign tickets, only Supervisor and Administrators can"
+    
+    if current_user.User? 
+      redirect_to user_tickets_path(current_user), alert: "You can't assign tickets, because you are a User, and not support staff"
+      return
+    elsif current_user.Executive?
+      redirect_to user_assign_tickets_path(current_user), alert: "You can't created assign tickets, only Supervisor and Administrators can"
       return
     end
 
@@ -34,9 +37,9 @@ class AssignTicketsController < ApplicationController
   # POST /assign_tickets or /assign_tickets.json
   def create
     @assign_ticket = AssignTicket.new(assign_ticket_params)
-
     respond_to do |format|
       if @assign_ticket.save
+        @assign_ticket.ticket.update(state:"Open")
         format.html { redirect_to assign_ticket_url(@assign_ticket), notice: "Assign ticket was successfully created." }
         format.json { render :show, status: :created, location: @assign_ticket }
       else
