@@ -32,23 +32,31 @@ class TicketsController < ApplicationController
   # GET /tickets/1/edit
   def edit
 
+    if (current_user.User? or current_user.Executive?) and (@ticket.star_number=!6 or @ticket.state=="Closed")
+      redirect_to user_tickets_path(current_user), alert: "This ticket is Closed, so you can edit it, except if it its Re-Open"
+    end
+
   end
 
   # POST /tickets or /tickets.json
   def create
     @ticket = Ticket.new(ticket_params)
 
-    @ticket.creation_date=Time.current
-    @ticket.response_to_user_date=Time.current
-    @ticket.resolution_date=Time.current
-    @ticket.limit_time_response=Time.current
-    @ticket.limit_time_response=Time.current
+    
     
     @ticket.files.attach(params[:ticket][:new_files]) if params[:ticket][:new_files].present?
     
       if @ticket.save
         Chat.create(ticket:@ticket)
         TagList.create(ticket:@ticket)
+
+        pre_assign_user=@ticket.pre_assing_executive
+        if pre_assign_user ==current_user
+          pre_assign_user=@ticket.pre_assing_second
+        end
+
+        AssignTicket.create(ticket: @ticket, user: pre_assign_user)
+
 
         if current_user.Executive? 
              # crear TicketList y luego hacer el siguiente paso
@@ -182,6 +190,17 @@ class TicketsController < ApplicationController
       redirect_to user_tickets_path(current_user), alert: "You can't access the overdue report"
       return
     end
+
+    @tickets = Ticket.where('(resolution_date > limit_time_resolution AND limit_time_resolution > creation_date ) 
+    OR (response_to_user_date > limit_time_response AND limit_time_response > creation_date)  
+    OR ((resolution_date = creation_date AND limit_time_resolution > creation_date AND limit_time_resolution < ?) 
+    OR (response_to_user_date = creation_date  AND limit_time_response > creation_date AND  limit_time_response < ?))', Time.now, Time.now)
+
+    @overdue_tickets = Ticket.where(
+      "(resolution_date IS NULL AND creation_date + (EXTRACT(DAY FROM limit_time_resolution) * interval '1 day') < NOW() - interval '1 day') OR " \
+      "(resolution_date IS NOT NULL AND (resolution_date > creation_date + (EXTRACT(DAY FROM limit_time_resolution) * interval '1 day') OR resolution_date IS NULL))"
+    )
+
   end
 
 
@@ -189,6 +208,61 @@ class TicketsController < ApplicationController
     @query = params[:query]
     @ticket_title =Ticket.joins(ticket_list: :user).where("tickets.title ILIKE :query OR tickets.incident_description ILIKE :query OR users.email ILIKE :query", query: "%#{@query}%")
   end
+
+
+  def dates_search
+    start_date = parse_date_param(params[:start_date])
+    end_date = parse_date_param(params[:end_date])
+
+    if start_date.nil? || end_date.nil?
+      flash[:alert] = "Please select valid start and end dates."
+      redirect_to user_ticket_report_path(current_user)
+    elsif start_date> end_date
+      flash[:alert] = "Please select end date later or equal to the start date."
+      redirect_to user_ticket_report_path(current_user)
+    else
+      # Perform the ticket search based on the start and end dates
+      @tickets = Ticket.where(creation_date: start_date.beginning_of_day..end_date.end_of_day)
+
+      @tickets_open= Ticket.where(creation_date: start_date.beginning_of_day..end_date.end_of_day, state: "Open")
+      @tickets_closed = Ticket.where(resolution_date: start_date.beginning_of_day..end_date.end_of_day, state: "Closed")
+      @tickets_reopen= Ticket.where(resolution_date: start_date.beginning_of_day..end_date.end_of_day, state: "ReOpen")
+
+      tag_counts = Tag.joins(:tag_list).where(tag_lists: { ticket_id: @tickets.pluck(:id) }).group(:name).count.to_json
+      @labels = JSON.parse(tag_counts).keys
+      @title = "Occurrences"
+      @data = JSON.parse(tag_counts).values
+      @backgroundColor = "rgba(75, 192, 192, 0.2)"
+      @borderColor = "rgba(75, 192, 192, 1)"
+      @borderWidth = 1
+      @options = {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: "Frequency"
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: "Count"
+            }
+          }
+        }
+      }.to_json
+
+      @start_end="#{start_date} - #{end_date}"
+
+      respond_to do |format|
+        format.html
+        format.js
+      end
+    end
+  end
+
 
 
   private
@@ -201,5 +275,11 @@ class TicketsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def ticket_params
       params.require(:ticket).permit(:title, :incident_description, :creation_date, :resolution_date, :response_to_user_date, :priority, :state, :resolution_key, :response_key, :response_to_user, :accept_or_reject_solution, :star_number, :limit_time_response, :limit_time_resolution)
+    end
+
+    def parse_date_param(date_string)
+      Date.parse(date_string) if date_string.present?
+    rescue ArgumentError
+      nil
     end
 end

@@ -9,9 +9,17 @@
     <%= render user %>
     <p>
       <%if current_user.Supervisor? and user.profile!="Administrator" %>
-        <%= link_to "Show this user", user, class:"btn btn-warning mt-2" %>
+        <%= link_to "Show this user", user, class:"btn btn-sm btn-warning mt-2" %>
+        
+       <%if current_user!=user %>
+          <%= link_to "Edit this user authority", edit_user_path(user), class:"btn btn-sm btn-info mt-2"%>
+        <%end  %>
+
       <%elsif current_user.Administrator? %>
-        <%= link_to "Show this user", user, class:"btn btn-warning mt-2" %>
+        <%= link_to "Show this user", user, class:"btn btn-sm  btn-warning mt-2" %>
+        <%if current_user!=user %>
+          <%= link_to "Edit this user authority", edit_user_path(user), class:"btn btn-sm btn-info mt-2"%>
+        <%end  %>
       <%end  %>
     </p>
     </div>
@@ -19,9 +27,7 @@
   <% end %>
 </div>
 
-<br>
- <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
- <p class="mx-auto text-center", style="display: flex; flex-wrap: wrap;"> 
-      <%= link_to "Back to Home Page", root_path ,class:"btn btn-outline-secondary"%>
-  </p>
+ <div class="card mx-auto w-50 p-3 bg-white text-black text-center mt-2">
+      <%= link_to "Back to Home Page", root_path ,class:"btn btn-secondary"%>
+
 </div>

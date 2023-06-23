@@ -9,16 +9,20 @@ class AssignTicketsController < ApplicationController
 
   # GET /assign_tickets/1 or /assign_tickets/1.json
   def show
+    redirect_to user_assign_ticket_ticket_path(current_user,@assign_ticket, @assign_ticket.ticket),alert:"You can't access that method"
   end
 
   # GET /assign_tickets/new
   def new
     
     if current_user.User? 
-      redirect_to user_tickets_path(current_user), alert: "You can't assign tickets, because you are a User, and not support staff"
+      redirect_to user_tickets_path(current_user), alert: "You can't assign tickets, because you are a User, and not a  support staff"
       return
     elsif current_user.Executive?
-      redirect_to user_assign_tickets_path(current_user), alert: "You can't created assign tickets, only Supervisor and Administrators can"
+      redirect_to user_assign_tickets_path(current_user), alert: "You can't created assign tickets"
+      return
+    else 
+      redirect_to assign_tickets_path(), alert: "You can't created assign tickets, but you can edit them"
       return
     end
 

@@ -1,11 +1,50 @@
+<%if @tickets.count <3 %>
+    <%= render partial: "layouts/adjust_background" %>
+<%end  %>
+
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-Overdue Report
+<h5><strong> Overdue Report</strong></h5>
 </div>
 <br>
 
+<div class="card mx-auto w-50 p-3 bg-white text-black text-center">
+    <h4>The total of overdue tickets: <%=@tickets.count %></h4> 
+</div>
+
+<br>
+
+<div class="card mx-auto p-3 text-black text-center" style="width: 40rem; background-color: #B5D3FF;">
+<h5>Want to sort by Priority, Response Date or Resolution Date ??</h5>
+  <div class="button-container d-flex justify-content-center">
+    <button id="sortButtonPriority" type="button" class="btn  btn-success btn-sm" style="display: block; margin: 0 auto; margin-right: 10px;">Sort by Priority &#10607;</button>
+    <button id="sortButtonClosing" type="button" class="btn  btn-success btn-sm" style="display: block; margin: 0 auto; margin-right: 10px;">Sort by Closing Date &#10607;</button>
+    <button id="sortButtonResponse" type="button" class="btn  btn-success btn-sm" style="display: block; margin: 0 auto;">Sort by Response Date &#10607;</button>
+  </div>
+</div>
+<br>
+
+<div id="ticketContainer">
+    
+    <% @tickets.each do |t| %>
+        <div class="ticket" data-priority="<%=t.priority%>" data-response_to_user_date="<%=t.response_to_user_date%>" data-resolution_date="<%=t.resolution_date%>">
+
+        <div class="card mx-auto w-75 p-3 bg-white text-black text-center mt-1">
+            <p>
+            <%= " |" %> 
+            <strong>Ticket title: </strong> <%= t.title %> <%= " |" %>
+            <strong>Ticket priority: </strong><%=t.priority %> <%= " |" %>
+            <strong>Ticket resolution date: </strong><%= t.resolution_date.strftime("%e/%m/%Y") %> <%= " |" %>
+            <strong>Ticket response date: </strong> <%= t.response_to_user_date.strftime("%e/%m/%Y") %> <%= " |" %>
+            </p>
+        
+        </div></div>
+    <%end  %>
+    
+</div>
+<br>
 
 <div class="card mx-auto w-50 p-3 bg-white text-black text-center">
-<p>
-    <%= link_to "Back to the user", user_path(params[:user_id]), class:"btn btn-outline-info", style:'margin-right: 10px;' %>
-</p>
+    <%= link_to "Back to the user", user_path(params[:user_id]), class:"btn btn-info", style:'margin-right: 10px;' %>
 </div>
+
+
